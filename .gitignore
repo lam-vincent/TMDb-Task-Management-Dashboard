@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# SQLite folder
+lib/sqlite-dll-win64-x64-3420000/
