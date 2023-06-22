@@ -1,4 +1,5 @@
 import React from "react";
+import Header from "../components/Header";
 
 const Home: React.FC = () => {
   const tasks = [
@@ -20,18 +21,21 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="flex">
-      <div className="w-1/3">
-        <h2 className="text-xl font-bold mb-4">Tasks</h2>
-        {renderTasksByStatus("tasks")}
-      </div>
-      <div className="w-1/3">
-        <h2 className="text-xl font-bold mb-4">In Progress</h2>
-        {renderTasksByStatus("inProgress")}
-      </div>
-      <div className="w-1/3">
-        <h2 className="text-xl font-bold mb-4">Done</h2>
-        {renderTasksByStatus("done")}
+    <div>
+      <Header />
+      <div className="flex">
+        <div className="w-1/3">
+          <h2 className="text-xl font-bold mb-4">Tasks</h2>
+          {renderTasksByStatus("tasks")}
+        </div>
+        <div className="w-1/3">
+          <h2 className="text-xl font-bold mb-4">In Progress</h2>
+          {renderTasksByStatus("inProgress")}
+        </div>
+        <div className="w-1/3">
+          <h2 className="text-xl font-bold mb-4">Done</h2>
+          {renderTasksByStatus("done")}
+        </div>
       </div>
     </div>
   );
