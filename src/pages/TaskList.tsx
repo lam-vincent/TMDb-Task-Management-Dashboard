@@ -1,37 +1,39 @@
 import React, { useState } from "react";
+import AddTask from "../components/AddTask";
 
-const TaskList = () => {
-  const [taskLists, setTaskLists] = useState([
-    {
-      id: 1,
-      title: "Task List 1",
-      tasks: [
-        { id: 1, title: "Task 1" },
-        { id: 2, title: "Task 2" },
-      ],
-    },
-    {
-      id: 2,
-      title: "Task List 2",
-      tasks: [
-        { id: 3, title: "Task 3" },
-        { id: 4, title: "Task 4" },
-      ],
-    },
-  ]);
+interface Task {
+  id: number;
+  title: string;
+}
 
-  const handleDragStart = (e, task, sourceListId) => {
+interface TaskList {
+  id: number;
+  title: string;
+  tasks: Task[];
+}
+
+const TaskList: React.FC = () => {
+  const [taskLists, setTaskLists] = useState<TaskList[]>([]);
+
+  const handleDragStart = (
+    e: React.DragEvent<HTMLDivElement>,
+    task: Task,
+    sourceListId: number
+  ) => {
     e.dataTransfer.setData(
       "text/plain",
       JSON.stringify({ task, sourceListId })
     );
   };
 
-  const handleDragOver = (e) => {
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
   };
 
-  const handleDrop = (e, targetListId) => {
+  const handleDrop = (
+    e: React.DragEvent<HTMLDivElement>,
+    targetListId: number
+  ) => {
     e.preventDefault();
     const { task, sourceListId } = JSON.parse(
       e.dataTransfer.getData("text/plain")
@@ -58,20 +60,26 @@ const TaskList = () => {
     setTaskLists(updatedTaskLists);
   };
 
+  const handleAddTask = (newTask: Task) => {
+    // Perform the necessary API request or database operation to add the new task
+    console.log("Adding task:", newTask);
+    // Update the tasks state or trigger a refetch of tasks from the server
+  };
+
   return (
-    <div>
+    <div className="flex m-4 gap-4">
       {taskLists.map((list) => (
-        <div key={list.id} className="task-list">
-          <h2>{list.title}</h2>
+        <div key={list.id} className="task-list w-1/3">
+          <h2 className="text-xl font-bold mb-4">{list.title}</h2>
           <div
-            className="task-container"
+            className="task-container border p-4 mb-4"
             onDragOver={(e) => handleDragOver(e)}
             onDrop={(e) => handleDrop(e, list.id)}
           >
             {list.tasks.map((task) => (
               <div
                 key={task.id}
-                className="task"
+                className="task text-lg"
                 draggable
                 onDragStart={(e) => handleDragStart(e, task, list.id)}
               >
@@ -79,6 +87,7 @@ const TaskList = () => {
               </div>
             ))}
           </div>
+          <AddTask onAddTask={handleAddTask} />
         </div>
       ))}
     </div>

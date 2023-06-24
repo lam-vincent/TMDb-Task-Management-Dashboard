@@ -1,40 +1,56 @@
 import express, { Request, Response } from "express";
-import sqlite3 from "sqlite3";
+import { PrismaClient } from "@prisma/client";
 
-// Specify the path to the sqlite3.dll file
-const sqlitePath = "./lib/sqlite-dll-win64-x64-3420000/sqlite3.dll";
-
-// Create a new SQLite database connection
-const db = new sqlite3.Database(
-  ":memory:",
-  sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
-  (err) => {
-    if (err) {
-      console.error(err.message);
-    } else {
-      console.log("Connected to the SQLite database.");
-
-      // Perform database operations
-      // ...
-    }
-  }
-);
-
-// Use the SQLite database connection
-// ...
-
+const prisma = new PrismaClient();
 const app = express();
-const port = 3000;
+app.use(express.json());
 
-app.get("/api/tasks", (req: Request, res: Response) => {
-  const tasks = [
-    { id: 1, title: "Task 1", status: "inProgress" },
-    { id: 2, title: "Task 2", status: "done" },
-  ];
-
+// Fetch all tasks
+app.get("/tasks", async (req: Request, res: Response) => {
+  const tasks = await prisma.task.findMany();
   res.json(tasks);
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+// Add a new task
+app.post("/tasks", async (req: Request, res: Response) => {
+  const { title, status } = req.body;
+  const task = await prisma.task.create({
+    data: {
+      title,
+      status,
+    },
+  });
+  res.json(task);
+});
+
+// Update a task's status
+app.patch("/tasks/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  const updatedTask = await prisma.task.update({
+    where: {
+      id: parseInt(id),
+    },
+    data: {
+      status,
+    },
+  });
+  res.json(updatedTask);
+});
+
+// Delete a task
+app.delete("/tasks/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const deletedTask = await prisma.task.delete({
+    where: {
+      id: parseInt(id),
+    },
+  });
+  res.json(deletedTask);
+});
+
+// Start the server
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });

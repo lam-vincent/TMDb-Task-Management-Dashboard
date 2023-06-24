@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "../components/Header";
 import AddTask from "../components/AddTask";
 
 const Home: React.FC = () => {
@@ -34,7 +33,6 @@ const Home: React.FC = () => {
 
   return (
     <div>
-      <Header />
       <div className="flex m-4 gap-4">
         <div className="w-1/3">
           <h2 className="text-xl font-bold mb-4">Tasks</h2>

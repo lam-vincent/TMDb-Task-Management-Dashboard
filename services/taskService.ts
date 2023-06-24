@@ -1,6 +1,9 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Task } from "@prisma/client";
 
 const prisma = new PrismaClient();
+
+// npx prisma db push
+// npx prisma generate
 
 // Create a new task
 const createTask = async (title: string, status: string) => {
@@ -13,11 +16,38 @@ const createTask = async (title: string, status: string) => {
   return task;
 };
 
-// Get all tasks
-const getAllTasks = async () => {
-  const tasks = await prisma.task.findMany();
-  return tasks;
-};
+// Get all taskList
+async function fetchTaskLists(): Promise<any[]> {
+  const taskLists = await prisma.taskList.findMany({
+    include: {
+      tasks: true,
+    },
+  });
+
+  const jsonResult = taskLists.map((taskList) => ({
+    id: taskList.id,
+    title: taskList.title,
+    tasks: taskList.tasks.map((task) => ({
+      id: task.id,
+      title: task.title,
+    })),
+  }));
+
+  return jsonResult;
+}
+
+async function main() {
+  try {
+    const result = await fetchTaskLists();
+    console.log(result);
+  } catch (error) {
+    console.error("Error retrieving task lists:", error);
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+main();
 
 // Get a task by ID
 const getTaskById = async (taskId: number) => {
