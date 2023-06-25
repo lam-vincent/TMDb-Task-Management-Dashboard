@@ -1,56 +1,61 @@
 import express, { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
 const app = express();
+const prisma = new PrismaClient();
+
 app.use(express.json());
 
-// Fetch all tasks
-app.get("/tasks", async (req: Request, res: Response) => {
-  const tasks = await prisma.task.findMany();
-  res.json(tasks);
+app.get("/api/taskLists", async (req: Request, res: Response) => {
+  try {
+    const taskLists = await prisma.taskList.findMany({
+      include: {
+        tasks: true,
+      },
+    });
+    res.json(taskLists);
+  } catch (error) {
+    console.error("Error retrieving task lists:", error);
+    res.status(500).json({ error: "An error occurred" });
+  }
 });
 
-// Add a new task
-app.post("/tasks", async (req: Request, res: Response) => {
-  const { title, status } = req.body;
-  const task = await prisma.task.create({
-    data: {
-      title,
-      status,
-    },
-  });
-  res.json(task);
+app.post("/api/taskLists", async (req: Request, res: Response) => {
+  const { title } = req.body;
+  try {
+    const taskList = await prisma.taskList.create({
+      data: {
+        title,
+      },
+    });
+    res.json(taskList);
+  } catch (error) {
+    console.error("Error creating task list:", error);
+    res.status(500).json({ error: "An error occurred" });
+  }
 });
 
-// Update a task's status
-app.patch("/tasks/:id", async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const { status } = req.body;
-  const updatedTask = await prisma.task.update({
-    where: {
-      id: parseInt(id),
-    },
-    data: {
-      status,
-    },
-  });
-  res.json(updatedTask);
+app.post("/api/tasks", async (req: Request, res: Response) => {
+  const { title, taskListId } = req.body;
+  try {
+    const task = await prisma.task.create({
+      data: {
+        title,
+        taskList: {
+          connect: { id: taskListId },
+        },
+      },
+      include: {
+        taskList: true,
+      },
+    });
+    res.json(task);
+  } catch (error) {
+    console.error("Error creating task:", error);
+    res.status(500).json({ error: "An error occurred" });
+  }
 });
 
-// Delete a task
-app.delete("/tasks/:id", async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const deletedTask = await prisma.task.delete({
-    where: {
-      id: parseInt(id),
-    },
-  });
-  res.json(deletedTask);
-});
-
-// Start the server
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(5000, () => {
+  console.log("Server running on http://localhost:5000");
 });
