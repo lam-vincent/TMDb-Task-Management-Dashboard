@@ -1,20 +1,22 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
-const AddTask = ({ onAddTask }) => {
+interface AddTaskProps {
+  addTask: (newTask: { title: string }) => void;
+}
+
+const AddTask: React.FC<AddTaskProps> = ({ addTask }) => {
   const [showForm, setShowForm] = useState(false);
   const [taskTitle, setTaskTitle] = useState("");
-  const [taskStatus, setTaskStatus] = useState("");
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Validate form inputs, perform any necessary checks
 
-    // Call the onAddTask function with the new task data
-    onAddTask({ title: taskTitle, status: taskStatus });
+    // Call the addTask function with the new task data
+    addTask({ title: taskTitle });
 
     // Reset form inputs and hide the form
     setTaskTitle("");
-    setTaskStatus("");
     setShowForm(false);
   };
 
@@ -39,13 +41,6 @@ const AddTask = ({ onAddTask }) => {
             placeholder="Task Title"
             value={taskTitle}
             onChange={(e) => setTaskTitle(e.target.value)}
-            className="border border-gray-300 rounded p-2"
-          />
-          <input
-            type="text"
-            placeholder="Task Status"
-            value={taskStatus}
-            onChange={(e) => setTaskStatus(e.target.value)}
             className="border border-gray-300 rounded p-2"
           />
           <div>

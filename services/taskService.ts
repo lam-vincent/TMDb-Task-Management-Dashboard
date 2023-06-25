@@ -6,13 +6,16 @@ const prisma = new PrismaClient();
 // npx prisma generate
 
 // Create a new task
-const createTask = async (title: string, status: string) => {
+const createTask = async (taskListId: number, title: string) => {
   const task = await prisma.task.create({
     data: {
       title,
-      status,
+      taskList: {
+        connect: { id: taskListId }, // Connect the task to the specified task list
+      },
     },
   });
+  console.log(task);
   return task;
 };
 
@@ -80,4 +83,4 @@ const deleteTask = async (taskId: number) => {
   return task;
 };
 
-export { createTask, getAllTasks, getTaskById, updateTask, deleteTask };
+export { createTask, fetchTaskLists, getTaskById, updateTask, deleteTask };

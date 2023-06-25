@@ -13,7 +13,32 @@ interface TaskList {
 }
 
 const TaskList: React.FC = () => {
-  const [taskLists, setTaskLists] = useState<TaskList[]>([]);
+  const [taskLists, setTaskLists] = useState<TaskList[]>([
+    {
+      id: 1,
+      title: "Tasks",
+      tasks: [
+        { id: 1, title: "Task 1" },
+        { id: 2, title: "Task 2" },
+      ],
+    },
+    {
+      id: 2,
+      title: "In Progress",
+      tasks: [
+        { id: 3, title: "Task 3" },
+        { id: 4, title: "Task 4" },
+      ],
+    },
+    {
+      id: 3,
+      title: "Done",
+      tasks: [
+        { id: 3, title: "Task 5" },
+        { id: 4, title: "Task 6" },
+      ],
+    },
+  ]);
 
   const handleDragStart = (
     e: React.DragEvent<HTMLDivElement>,
@@ -60,7 +85,7 @@ const TaskList: React.FC = () => {
     setTaskLists(updatedTaskLists);
   };
 
-  const handleAddTask = (newTask: Task) => {
+  const addTask = (newTask: Task) => {
     // Perform the necessary API request or database operation to add the new task
     console.log("Adding task:", newTask);
     // Update the tasks state or trigger a refetch of tasks from the server
@@ -87,7 +112,7 @@ const TaskList: React.FC = () => {
               </div>
             ))}
           </div>
-          <AddTask onAddTask={handleAddTask} />
+          <AddTask addTask={addTask} />
         </div>
       ))}
     </div>
