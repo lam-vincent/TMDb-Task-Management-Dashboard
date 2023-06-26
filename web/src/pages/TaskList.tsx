@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AddTask from "../components/AddTask";
 
 interface Task {
   id: number;
   title: string;
+  taskListId: number;
 }
 
 interface TaskList {
@@ -12,14 +13,21 @@ interface TaskList {
   tasks: Task[];
 }
 
-interface TaskListProps {
-  taskLists: TaskList[] | null;
-}
+const TaskList: React.FC = () => {
+  const [taskLists, setTaskLists] = useState<TaskList[]>([]);
+  useEffect(() => {
+    async function getTaskLists() {
+      try {
+        const res = await fetch("http://localhost:3000/taskLists");
+        const data = await res.json();
+        setTaskLists(data);
+      } catch (error) {
+        console.error("Error retrieving task lists:", error);
+      }
+    }
 
-const TaskList: React.FC<TaskListProps> = ({ taskLists }) => {
-  const [taskListsState, setTaskListsState] = useState<TaskList[]>(
-    taskLists || []
-  );
+    getTaskLists();
+  }, []);
 
   const handleDragStart = (
     e: React.DragEvent<HTMLDivElement>,
@@ -46,7 +54,7 @@ const TaskList: React.FC<TaskListProps> = ({ taskLists }) => {
     );
 
     // Move the task from sourceListId to targetListId
-    const updatedTaskLists = [...taskListsState];
+    const updatedTaskLists = [...taskLists];
     const sourceListIndex = updatedTaskLists.findIndex(
       (list) => list.id === sourceListId
     );
@@ -63,7 +71,7 @@ const TaskList: React.FC<TaskListProps> = ({ taskLists }) => {
     )[0];
     updatedTaskLists[targetListIndex].tasks.push(movedTask);
 
-    setTaskListsState(updatedTaskLists);
+    setTaskLists(updatedTaskLists);
   };
 
   const addTask = (newTask: Task) => {
@@ -73,29 +81,31 @@ const TaskList: React.FC<TaskListProps> = ({ taskLists }) => {
   };
 
   return (
-    <div className="flex m-4 gap-4">
-      {taskListsState.map((list) => (
-        <div key={list.id} className="task-list w-1/3">
-          <h2 className="text-xl font-bold mb-4">{list.title}</h2>
-          <div
-            className="task-container border p-4 mb-4"
-            onDragOver={(e) => handleDragOver(e)}
-            onDrop={(e) => handleDrop(e, list.id)}
-          >
-            {list.tasks.map((task) => (
-              <div
-                key={task.id}
-                className="task text-lg"
-                draggable
-                onDragStart={(e) => handleDragStart(e, task, list.id)}
-              >
-                {task.title}
-              </div>
-            ))}
+    <div>
+      <div className="flex m-4 gap-4">
+        {taskLists.map((list) => (
+          <div key={list.id} className="task-list w-1/3">
+            <h2 className="text-xl font-bold mb-4">{list.title}</h2>
+            <div
+              className="task-container border p-4 mb-4"
+              onDragOver={(e) => handleDragOver(e)}
+              onDrop={(e) => handleDrop(e, list.id)}
+            >
+              {list.tasks.map((task) => (
+                <div
+                  key={task.id}
+                  className="task text-lg"
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, task, list.id)}
+                >
+                  {task.title}
+                </div>
+              ))}
+            </div>
+            <AddTask addTask={addTask} />
           </div>
-          <AddTask addTask={addTask} />
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };
