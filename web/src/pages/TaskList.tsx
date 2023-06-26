@@ -12,33 +12,14 @@ interface TaskList {
   tasks: Task[];
 }
 
-const TaskList: React.FC = () => {
-  const [taskLists, setTaskLists] = useState<TaskList[]>([
-    {
-      id: 1,
-      title: "Tasks",
-      tasks: [
-        { id: 1, title: "Task 1" },
-        { id: 2, title: "Task 2" },
-      ],
-    },
-    {
-      id: 2,
-      title: "In Progress",
-      tasks: [
-        { id: 3, title: "Task 3" },
-        { id: 4, title: "Task 4" },
-      ],
-    },
-    {
-      id: 3,
-      title: "Done",
-      tasks: [
-        { id: 3, title: "Task 5" },
-        { id: 4, title: "Task 6" },
-      ],
-    },
-  ]);
+interface TaskListProps {
+  taskLists: TaskList[] | null;
+}
+
+const TaskList: React.FC<TaskListProps> = ({ taskLists }) => {
+  const [taskListsState, setTaskListsState] = useState<TaskList[]>(
+    taskLists || []
+  );
 
   const handleDragStart = (
     e: React.DragEvent<HTMLDivElement>,
@@ -65,7 +46,7 @@ const TaskList: React.FC = () => {
     );
 
     // Move the task from sourceListId to targetListId
-    const updatedTaskLists = [...taskLists];
+    const updatedTaskLists = [...taskListsState];
     const sourceListIndex = updatedTaskLists.findIndex(
       (list) => list.id === sourceListId
     );
@@ -82,7 +63,7 @@ const TaskList: React.FC = () => {
     )[0];
     updatedTaskLists[targetListIndex].tasks.push(movedTask);
 
-    setTaskLists(updatedTaskLists);
+    setTaskListsState(updatedTaskLists);
   };
 
   const addTask = (newTask: Task) => {
@@ -93,7 +74,7 @@ const TaskList: React.FC = () => {
 
   return (
     <div className="flex m-4 gap-4">
-      {taskLists.map((list) => (
+      {taskListsState.map((list) => (
         <div key={list.id} className="task-list w-1/3">
           <h2 className="text-xl font-bold mb-4">{list.title}</h2>
           <div
