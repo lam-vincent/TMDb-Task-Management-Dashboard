@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AddTask from "../components/AddTask";
+import DeleteTask from "../components/DeleteTask";
 
 interface Task {
   id: number;
@@ -89,11 +90,12 @@ const TaskList: React.FC = () => {
               {list.tasks.map((task) => (
                 <div
                   key={task.id}
-                  className="task text-lg"
+                  className="task text-lg flex"
                   draggable
                   onDragStart={(e) => handleDragStart(e, task, list.id)}
                 >
                   {task.title}
+                  <DeleteTask taskId={task.id} onDelete={fetchTaskLists} />
                 </div>
               ))}
             </div>

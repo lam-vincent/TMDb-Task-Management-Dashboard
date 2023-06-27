@@ -9,6 +9,18 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
+interface Task {
+  id: number;
+  title: string;
+  taskListId: number;
+}
+
+interface TaskList {
+  id: number;
+  title: string;
+  tasks: Task[];
+}
+
 app.get("/tasks", async (req, res) => {
   const tasks = await prisma.task.findMany({
     include: {
@@ -44,6 +56,38 @@ app.post("/tasks", async (req, res) => {
     res.json(task);
   } catch (error) {
     console.error("Error creating task:", error);
+    res.status(500).json({ error: "An error occurred" });
+  }
+});
+
+app.delete("/tasks/:taskId", async (req, res) => {
+  const taskId: number = parseInt(req.params.taskId);
+
+  try {
+    const task: Task | null = await prisma.task.findUnique({
+      where: {
+        id: taskId,
+      },
+      include: {
+        taskList: true,
+      },
+    });
+
+    console.log("taskId", taskId);
+
+    if (!task) {
+      return res.status(404).json({ error: "Task not found" });
+    }
+
+    await prisma.task.delete({
+      where: {
+        id: taskId,
+      },
+    });
+
+    res.json({ message: "Task deleted successfully" });
+  } catch (error: any) {
+    console.error("Error deleting task:", error);
     res.status(500).json({ error: "An error occurred" });
   }
 });
