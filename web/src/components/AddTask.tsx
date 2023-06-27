@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 
 interface AddTaskProps {
-  addTask: (newTask: { title: string }) => void;
+  taskListId: number;
+  fetchTaskLists: () => void;
 }
 
-const AddTask: React.FC<AddTaskProps> = ({ addTask }) => {
+const AddTask: React.FC<AddTaskProps> = ({ taskListId, fetchTaskLists }) => {
   const [showForm, setShowForm] = useState(false);
   const [taskTitle, setTaskTitle] = useState("");
 
@@ -12,12 +13,40 @@ const AddTask: React.FC<AddTaskProps> = ({ addTask }) => {
     e.preventDefault();
     // Validate form inputs, perform any necessary checks
 
-    // Call the addTask function with the new task data
-    addTask({ title: taskTitle });
+    // Call the addTask function to create a new task
+    addTask(taskTitle, taskListId);
 
     // Reset form inputs and hide the form
     setTaskTitle("");
     setShowForm(false);
+  };
+
+  const addTask = async (title: string, taskListId: number) => {
+    const taskData = {
+      title,
+      taskListId,
+    };
+
+    try {
+      const response = await fetch("http://localhost:3000/tasks", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(taskData),
+      });
+
+      if (response.ok) {
+        const newTask = await response.json();
+        console.log("Created task:", newTask);
+        // Fetch the updated task lists
+        fetchTaskLists();
+      } else {
+        console.error("Failed to create task:", response.status);
+      }
+    } catch (error) {
+      console.error("Error creating task:", error);
+    }
   };
 
   return (

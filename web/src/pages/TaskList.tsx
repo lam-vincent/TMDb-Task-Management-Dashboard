@@ -15,19 +15,20 @@ interface TaskList {
 
 const TaskList: React.FC = () => {
   const [taskLists, setTaskLists] = useState<TaskList[]>([]);
-  useEffect(() => {
-    async function getTaskLists() {
-      try {
-        const res = await fetch("http://localhost:3000/taskLists");
-        const data = await res.json();
-        setTaskLists(data);
-      } catch (error) {
-        console.error("Error retrieving task lists:", error);
-      }
-    }
 
-    getTaskLists();
+  useEffect(() => {
+    fetchTaskLists();
   }, []);
+
+  const fetchTaskLists = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/taskLists");
+      const data = await res.json();
+      setTaskLists(data);
+    } catch (error) {
+      console.error("Error retrieving task lists:", error);
+    }
+  };
 
   const handleDragStart = (
     e: React.DragEvent<HTMLDivElement>,
@@ -74,12 +75,6 @@ const TaskList: React.FC = () => {
     setTaskLists(updatedTaskLists);
   };
 
-  const addTask = (newTask: Task) => {
-    // Perform the necessary API request or database operation to add the new task
-    console.log("Adding task:", newTask);
-    // Update the tasks state or trigger a refetch of tasks from the server
-  };
-
   return (
     <div>
       <div className="flex m-4 gap-4">
@@ -102,7 +97,7 @@ const TaskList: React.FC = () => {
                 </div>
               ))}
             </div>
-            <AddTask addTask={addTask} />
+            <AddTask taskListId={list.id} fetchTaskLists={fetchTaskLists} />
           </div>
         ))}
       </div>
