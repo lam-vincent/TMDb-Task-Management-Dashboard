@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AddTask from "../components/AddTask";
 import DeleteTask from "../components/DeleteTask";
+import UpdateTaskTitle from "../components/UpdateTaskTitle";
 
 interface Task {
   id: number;
@@ -95,6 +96,11 @@ const TaskList: React.FC = () => {
                   onDragStart={(e) => handleDragStart(e, task, list.id)}
                 >
                   {task.title}
+                  <UpdateTaskTitle
+                    taskId={task.id}
+                    currentTitle={task.title}
+                    fetchTaskLists={fetchTaskLists}
+                  />
                   <DeleteTask taskId={task.id} onDelete={fetchTaskLists} />
                 </div>
               ))}
