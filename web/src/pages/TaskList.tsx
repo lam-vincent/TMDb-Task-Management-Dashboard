@@ -32,6 +32,32 @@ const TaskList: React.FC = () => {
     }
   };
 
+  const changeTaskListId = async (
+    taskId: number,
+    newTaskListId: number
+  ): Promise<void> => {
+    try {
+      const res = await fetch(
+        `http://localhost:3000/tasks/${taskId}/updateTaskListId`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ taskListId: newTaskListId }),
+        }
+      );
+
+      if (res.ok) {
+        fetchTaskLists(); // Refresh the task lists after updating the task list ID
+      } else {
+        console.error("Failed to update task list ID:", res.status);
+      }
+    } catch (error) {
+      console.error("Error updating task list ID:", error);
+    }
+  };
+
   const handleDragStart = (
     e: React.DragEvent<HTMLDivElement>,
     task: Task,
@@ -72,9 +98,13 @@ const TaskList: React.FC = () => {
       taskIndex,
       1
     )[0];
+    movedTask.taskListId = targetListId; // Update the taskListId of the moved task
     updatedTaskLists[targetListIndex].tasks.push(movedTask);
 
     setTaskLists(updatedTaskLists);
+
+    // Call the changeTaskListId function to update the task list ID in the database
+    changeTaskListId(task.id, targetListId);
   };
 
   return (
