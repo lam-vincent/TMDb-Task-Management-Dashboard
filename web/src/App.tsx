@@ -1,13 +1,11 @@
 import React from "react";
-import TaskList from "./pages/TaskList";
+import TaskList from "./components/TaskList";
+import Home from "./pages/Home";
 
 function App() {
   return (
     <div>
-      <header className="text-3xl text-center py-4 mb-4 font-bold">
-        <h1>🛒 Trolley - To help you carry the burden of your tasks</h1>
-      </header>
-      <TaskList />
+      <Home />
     </div>
   );
 }
