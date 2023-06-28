@@ -43,7 +43,7 @@ const Home: React.FC = () => {
                 </ul>
               </div>
               <div>
-                <span className="underline">sign in</span>
+                <span className="underline">sign out</span>
               </div>
             </aside>
             <section className="flex flex-col justify-center items-center w-full h-full">
