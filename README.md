@@ -10,58 +10,6 @@
 
 TMDb is a web application designed to simplify task management in a Trello-like style. With TMDb, you have three task lists at your disposal: "Tasks," "In Progress," and "Done." It provides a straightforward and intuitive interface for adding, organizing, and tracking tasks across these lists.
 
-## The prototype
-
-![TrolleyGif1](https://github.com/lam-vincent/to-do-list/assets/62343240/8f0c1b13-a642-452b-9014-a9d65b46b538)
-
-## The improved design
-
-![TMDb-image-1](https://github.com/lam-vincent/to-do-list/assets/62343240/01c7b661-e522-470f-b3b3-3f6f7e92cf34)
-
-## How to add a task
-
-![TMDb-image-2](https://github.com/lam-vincent/to-do-list/assets/62343240/ff765ad9-2863-4d2d-b183-e19fc1aac4ce)
-
-## How it looks like when you want to edit an existing task
-
-![TMDb-image-4](https://github.com/lam-vincent/to-do-list/assets/62343240/6dce0de8-d023-45bf-bc1a-0671bdd8d0ef)
-
-## Table of Contents
-
-- [Tech Stack](#tech-stack)
-- [The Prototype](#the-prototype)
-- [The Improved Design](#the-improved-design)
-- [Add a Task](#add-a-task)
-- [Edit an Existing Task](#edit-an-existing-task)
-- [Installation and Usage](#installation-and-usage)
-- [Features](#features)
-
-## Tech Stack [🔝](#TMDb-Task-Management-Dashboard)
-
-- ⚡️ Vite - Fast and lightweight development server
-- ⚛️ React - JavaScript library for building user interfaces
-- 📘 Typescript - Typed superset of JavaScript
-- 🎨 Tailwind CSS - Utility-first CSS framework
-- ⚙️ Express - Web application framework for Node.js
-- 🗄️ SQLite - Embedded relational database management system
-- 🛠️ Prisma - Modern database toolkit and ORM
-
-## The prototype [🔝](#TMDb-Task-Management-Dashboard)
-
-![TrolleyGif1](https://github.com/lam-vincent/to-do-list/assets/62343240/8f0c1b13-a642-452b-9014-a9d65b46b538)
-
-## The improved design [🔝](#TMDb-Task-Management-Dashboard)
-
-![TMDb-image-1](https://github.com/lam-vincent/to-do-list/assets/62343240/d6546ac1-5171-42c0-b58e-0abe7b674437)
-
-## Add a task [🔝](#TMDb-Task-Management-Dashboard)
-
-![TMDb-image-2](https://github.com/lam-vincent/to-do-list/assets/62343240/1ac448b6-b3ee-4884-a42a-448549ffb412)
-
-## Edit an existing task [🔝](#TMDb-Task-Management-Dashboard)
-
-![TMDb-image-4](https://github.com/lam-vincent/to-do-list/assets/62343240/b8c7e171-14e4-4f6a-b91a-0e7a3189b289)
-
 ## Table of Contents
 
 - [Tech Stack](#tech-stack)
