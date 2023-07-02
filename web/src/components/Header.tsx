@@ -1,10 +1,14 @@
 import React from "react";
 
-const Header: React.FC = () => {
+const Header = () => {
   return (
-    <header className="text-3xl text-center py-4 mb-4 font-bold">
-      <h1>🛒 Trolley - To help you carry the burden of your tasks</h1>
-    </header>
+    <div className="flex justify-center items-center gap-1 font-bold">
+      <h1 className="text-2xl font-extrabold bg-yellow-500 p-1.5 pt-1 rounded">
+        TMDb
+      </h1>
+      <span className="text-xs translate-y-1">:</span>
+      <span className="text-xs translate-y-1">Task Management Dashboard</span>
+    </div>
   );
 };
 
