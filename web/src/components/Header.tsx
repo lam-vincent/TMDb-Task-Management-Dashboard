@@ -2,7 +2,7 @@ import React from "react";
 
 const Header = () => {
   return (
-    <div className="flex justify-center items-center gap-1 font-bold">
+    <div className="flex justify-center items-center gap-1 font-bold m-8">
       <h1 className="text-2xl font-extrabold bg-yellow-500 p-1.5 pt-1 rounded">
         TMDb
       </h1>
