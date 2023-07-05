@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import express from "express";
 import cors from "cors";
+import authRoutes from "./routes/auth";
 
 const prisma = new PrismaClient();
 const app = express();
@@ -157,30 +158,32 @@ app.patch("/tasks/:taskId/updateTaskListId", async (req, res) => {
   }
 });
 
-// Check authentication endpoint
-app.get("/api/check-auth", async (req, res) => {
-  try {
-    // Handle authentication check logic
-    // Return the user data if authenticated
-    // Otherwise, return an error response
-  } catch (error) {
-    // Handle error and send an error response
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+// // Check authentication endpoint
+// app.get("/api/check-auth", async (req, res) => {
+//   try {
+//     // Handle authentication check logic
+//     // Return the user data if authenticated
+//     // Otherwise, return an error response
+//   } catch (error) {
+//     // Handle error and send an error response
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
 
-// Login endpoint
-app.post("/api/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    // Handle login logic
-    // Authenticate the user and return the user data if successful
-    // Otherwise, return an error response
-  } catch (error) {
-    // Handle error and send an error response
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+// // Login endpoint
+// app.post("/api/login", async (req, res) => {
+//   try {
+//     const { email, password } = req.body;
+//     // Handle login logic
+//     // Authenticate the user and return the user data if successful
+//     // Otherwise, return an error response
+//   } catch (error) {
+//     // Handle error and send an error response
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
+
+app.use("/api/auth", authRoutes);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
