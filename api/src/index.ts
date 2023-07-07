@@ -185,6 +185,21 @@ app.patch("/tasks/:taskId/updateTaskListId", async (req, res) => {
 
 app.use("/api/auth", authRoutes);
 
+const secretKey = "your-secret-key";
+
+const authenticateJwt = expressJwt({
+  secret: secretKey,
+  algorithms: ["HS256"],
+});
+
+app.get("/api/protected-route", authenticateJwt, (req, res) => {
+  // Handle protected route logic
+});
+
+const token = jwt.sign({ userId: "user-id" }, secretKey, {
+  expiresIn: "1h",
+});
+
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
 });
