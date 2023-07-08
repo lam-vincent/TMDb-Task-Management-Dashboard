@@ -4,12 +4,30 @@ const RegisterForm: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [email, setEmail] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Perform validation here
+    // Perform validation
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    if (username.length < 6) {
+      alert("Username must be at least 6 characters long");
+      return;
+    }
+
+    // Regular expression for password complexity
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(password)) {
+      alert(
+        "Password must contain at least 8 characters, including one uppercase letter, one lowercase letter, one number, and one special character"
+      );
+      return;
+    }
 
     try {
       const response = await fetch("/api/register", {
@@ -20,8 +38,6 @@ const RegisterForm: React.FC = () => {
         body: JSON.stringify({
           username,
           password,
-          confirmPassword,
-          email,
         }),
       });
 
@@ -92,22 +108,6 @@ const RegisterForm: React.FC = () => {
           className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-500"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-        />
-      </div>
-
-      <div className="mb-4">
-        <label
-          htmlFor="email"
-          className="block mb-2 text-lg font-medium text-gray-800"
-        >
-          Email
-        </label>
-        <input
-          type="email"
-          id="email"
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-500"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
         />
       </div>
 

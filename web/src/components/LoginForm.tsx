@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const LoginForm: React.FC = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -16,7 +16,7 @@ const LoginForm: React.FC = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email,
+          username,
           password,
         }),
       });
@@ -43,17 +43,17 @@ const LoginForm: React.FC = () => {
 
       <div className="mb-4">
         <label
-          htmlFor="email"
+          htmlFor="username"
           className="block mb-2 text-lg font-medium text-gray-800"
         >
-          Email
+          Username
         </label>
         <input
-          type="email"
-          id="email"
+          type="username"
+          id="username"
           className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-500"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
       </div>
 
