@@ -46,13 +46,16 @@ app.get("/tasklists", async (req, res) => {
 });
 
 app.post("/tasks", async (req, res) => {
-  const { title, taskListId } = req.body;
+  const { title, taskListId, userId } = req.body;
   try {
     const task = await prisma.task.create({
       data: {
         title,
         taskList: {
           connect: { id: taskListId },
+        },
+        user: {
+          connect: { id: userId },
         },
       },
       include: {
