@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import express from "express";
 import cors from "cors";
 import authRoutes from "./routes/auth";
+import { authMiddleware } from "./middlewares/authMiddleware";
 
 const prisma = new PrismaClient();
 const app = express();
@@ -21,6 +22,10 @@ interface TaskList {
   title: string;
   tasks: Task[];
 }
+
+app.use("/api/auth", authRoutes);
+
+app.use(authMiddleware);
 
 app.get("/tasks", async (req, res) => {
   const tasks = await prisma.task.findMany({
@@ -157,8 +162,6 @@ app.patch("/tasks/:taskId/updateTaskListId", async (req, res) => {
     res.status(500).json({ error: "An error occurred" });
   }
 });
-
-app.use("/api/auth", authRoutes);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
