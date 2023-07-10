@@ -43,8 +43,8 @@ const RegisterForm: React.FC = () => {
 
       if (response.ok) {
         const data = await response.json();
-        // Handle successful registration
-        console.log(data);
+        // Store the JWT in local storage
+        localStorage.setItem("jwtToken", data.token);
       } else {
         // Handle registration error
         throw new Error("Registration failed");

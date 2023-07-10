@@ -23,8 +23,9 @@ const LoginForm: React.FC = () => {
 
       if (response.ok) {
         const data = await response.json();
-        // Handle successful login
-        console.log(data);
+        // Store the JWT in local storage
+        localStorage.setItem("jwtToken", data.token);
+        // Redirect or perform any other actions after successful login
       } else {
         // Handle login error
         throw new Error("Login failed");
