@@ -1,7 +1,11 @@
 import express, { Request, Response } from "express";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import jwt, { Secret } from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
+import { config } from "dotenv";
+
+config();
+const secretKey: Secret = process.env.SECRET_KEY || "";
 
 const prisma = new PrismaClient();
 const router = express.Router();
@@ -28,7 +32,7 @@ router.post("/register", async (req: Request, res: Response) => {
     });
 
     // Generate JWT token
-    const token = jwt.sign({ userId: newUser.id }, "your-secret-key", {
+    const token = jwt.sign({ userId: newUser.id }, secretKey, {
       expiresIn: "1h",
     });
 
@@ -56,7 +60,7 @@ router.post("/login", async (req: Request, res: Response) => {
     }
 
     // Generate JWT token
-    const token = jwt.sign({ userId: user.id }, "your-secret-key", {
+    const token = jwt.sign({ userId: user.id }, secretKey, {
       expiresIn: "1h",
     });
 
