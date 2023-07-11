@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const RegisterForm: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,6 +47,8 @@ const RegisterForm: React.FC = () => {
         const data = await response.json();
         // Store the JWT in local storage
         localStorage.setItem("jwtToken", data.token);
+        // Navigate to the login page after successful registration
+        navigate("/login");
       } else {
         // Handle registration error
         throw new Error("Registration failed");
