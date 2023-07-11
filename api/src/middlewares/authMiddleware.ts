@@ -1,6 +1,9 @@
 import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+import jwt, { Secret } from "jsonwebtoken";
+import { config } from "dotenv";
+
+config();
+const secretKey: Secret = process.env.SECRET_KEY || "";
 
 // Middleware to authenticate and authorize requests
 export const authMiddleware = (
@@ -9,8 +12,6 @@ export const authMiddleware = (
   next: NextFunction
 ) => {
   try {
-    console.log("holle");
-
     const token = req.headers.authorization?.split(" ")[1];
 
     if (!token) {
@@ -18,7 +19,7 @@ export const authMiddleware = (
     }
 
     // Verify the JWT token
-    jwt.verify(token, "your-secret-key");
+    jwt.verify(token, secretKey);
 
     next();
   } catch (error) {

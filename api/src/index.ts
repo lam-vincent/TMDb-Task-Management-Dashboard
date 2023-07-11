@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import express from "express";
 import cors from "cors";
-import authRoutes from "./routes/auth";
+import authRoutes from "./routes/authRoutes";
 import { authMiddleware } from "./middlewares/authMiddleware";
 
 const prisma = new PrismaClient();
@@ -15,12 +15,14 @@ interface Task {
   id: number;
   title: string;
   taskListId: number;
+  userId: number;
 }
 
 interface TaskList {
   id: number;
   title: string;
   tasks: Task[];
+  userId: number;
 }
 
 app.use("/api/auth", authRoutes);
@@ -30,7 +32,11 @@ app.use(authMiddleware);
 app.get("/tasks", async (req, res) => {
   const tasks = await prisma.task.findMany({
     include: {
-      taskList: true,
+      taskList: {
+        include: {
+          user: true,
+        },
+      },
     },
   });
   res.json(tasks);
@@ -40,6 +46,7 @@ app.get("/tasklists", async (req, res) => {
   const taskLists = await prisma.taskList.findMany({
     include: {
       tasks: true,
+      user: true,
     },
   });
   res.json(taskLists);
@@ -59,7 +66,11 @@ app.post("/tasks", async (req, res) => {
         },
       },
       include: {
-        taskList: true,
+        taskList: {
+          include: {
+            user: true,
+          },
+        },
       },
     });
     res.json(task);
@@ -78,7 +89,11 @@ app.delete("/tasks/:taskId", async (req, res) => {
         id: taskId,
       },
       include: {
-        taskList: true,
+        taskList: {
+          include: {
+            user: true,
+          },
+        },
       },
     });
 

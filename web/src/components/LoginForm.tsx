@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  let navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -10,7 +12,7 @@ const LoginForm: React.FC = () => {
     // Perform validation here
 
     try {
-      const response = await fetch("/api/login", {
+      const response = await fetch("http://localhost:3000/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -25,7 +27,8 @@ const LoginForm: React.FC = () => {
         const data = await response.json();
         // Store the JWT in local storage
         localStorage.setItem("jwtToken", data.token);
-        // Redirect or perform any other actions after successful login
+        // Redirect to "/" after successful login
+        navigate("/");
       } else {
         // Handle login error
         throw new Error("Login failed");
