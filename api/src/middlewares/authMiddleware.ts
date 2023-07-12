@@ -5,9 +5,13 @@ import { config } from "dotenv";
 config();
 const secretKey: Secret = process.env.SECRET_KEY || "";
 
+interface AuthenticatedRequest extends Request {
+  userId?: number;
+}
+
 // Middleware to authenticate and authorize requests
 export const authMiddleware = (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ) => {
@@ -18,8 +22,12 @@ export const authMiddleware = (
       throw new Error("Unauthorized");
     }
 
-    // Verify the JWT token
-    jwt.verify(token, secretKey);
+    // Verify the JWT token and extract the userId
+    const decoded = jwt.verify(token, secretKey) as { userId: number };
+    const { userId } = decoded;
+
+    // Add the userId to the request object for future use
+    req.userId = userId;
 
     next();
   } catch (error) {

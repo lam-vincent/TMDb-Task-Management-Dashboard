@@ -41,7 +41,7 @@ const LoginForm: React.FC = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-sm mx-auto border p-8 rounded-lg"
+      className="max-w-sm mx-auto border p-8 rounded-lg bg-white"
     >
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Sign in to TMDb</h2>
 
