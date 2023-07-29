@@ -27,7 +27,6 @@ const LoginForm: React.FC = () => {
         const data = await response.json();
         // Store the JWT in local storage
         localStorage.setItem("jwtToken", data.token);
-        localStorage.setItem("userID", data.userID);
         // Redirect to "/" after successful login
         navigate("/");
       } else {

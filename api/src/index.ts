@@ -29,8 +29,9 @@ app.use("/api/auth", authRoutes);
 
 app.use(authMiddleware);
 
-app.get("/tasklists/:userID", async (req, res) => {
-  const userID = parseInt(req.params.userID);
+app.get("/tasklists", async (req, res) => {
+  // @ts-ignore
+  const userID = parseInt(req.userId);
   const taskLists = await prisma.taskList.findMany({
     where: {
       user: {

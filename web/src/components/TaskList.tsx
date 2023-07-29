@@ -25,12 +25,11 @@ const TaskList: React.FC = () => {
   }, []);
 
   const fetchTaskLists = async () => {
-    const userID = localStorage.getItem("userID");
     const jwtToken = localStorage.getItem("jwtToken");
-    if (!userID || !jwtToken) navigate("/login");
+    if (!jwtToken) navigate("/login");
 
     try {
-      const res = await fetch("http://localhost:3000/tasklists/" + userID, {
+      const res = await fetch("http://localhost:3000/tasklists", {
         headers: { authorization: "Bearer " + jwtToken },
       });
       const data = await res.json();
