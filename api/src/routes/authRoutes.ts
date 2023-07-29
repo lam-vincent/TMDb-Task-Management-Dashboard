@@ -36,6 +36,25 @@ router.post("/register", async (req: Request, res: Response) => {
       expiresIn: "1h",
     });
 
+    await prisma.taskList.create({
+      data: {
+        title: "Todo",
+        userId: newUser.id,
+      },
+    });
+    await prisma.taskList.create({
+      data: {
+        title: "In progress",
+        userId: newUser.id,
+      },
+    });
+    await prisma.taskList.create({
+      data: {
+        title: "Done",
+        userId: newUser.id,
+      },
+    });
+
     res.status(201).json({ message: "User registered successfully", token });
   } catch (error) {
     console.error("Registration failed:", error);
