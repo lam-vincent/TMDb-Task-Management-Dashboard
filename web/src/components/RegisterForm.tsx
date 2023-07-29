@@ -16,21 +16,6 @@ const RegisterForm: React.FC = () => {
       return;
     }
 
-    if (username.length < 6) {
-      alert("Username must be at least 6 characters long");
-      return;
-    }
-
-    // Regular expression for password complexity
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    if (!passwordRegex.test(password)) {
-      alert(
-        "Password must contain at least 8 characters, including one uppercase letter, one lowercase letter, one number, and one special character"
-      );
-      return;
-    }
-
     try {
       const response = await fetch("http://localhost:3000/api/auth/register", {
         method: "POST",
@@ -79,6 +64,7 @@ const RegisterForm: React.FC = () => {
           id="username"
           className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-500"
           value={username}
+          minLength={6}
           onChange={(e) => setUsername(e.target.value)}
         />
       </div>
@@ -93,6 +79,7 @@ const RegisterForm: React.FC = () => {
         <input
           type="password"
           id="password"
+          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
           className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-500"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
