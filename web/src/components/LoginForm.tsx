@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const LoginForm: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,6 +27,7 @@ const LoginForm: React.FC = () => {
         const data = await response.json();
         // Store the JWT in local storage
         localStorage.setItem("jwtToken", data.token);
+        localStorage.setItem("userID", data.userID);
         // Redirect to "/" after successful login
         navigate("/");
       } else {

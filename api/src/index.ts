@@ -29,24 +29,16 @@ app.use("/api/auth", authRoutes);
 
 app.use(authMiddleware);
 
-app.get("/tasks", async (req, res) => {
-  const tasks = await prisma.task.findMany({
-    include: {
-      taskList: {
-        include: {
-          user: true,
-        },
+app.get("/tasklists/:userID", async (req, res) => {
+  const userID = parseInt(req.params.userID);
+  const taskLists = await prisma.taskList.findMany({
+    where: {
+      user: {
+        id: userID,
       },
     },
-  });
-  res.json(tasks);
-});
-
-app.get("/tasklists", async (req, res) => {
-  const taskLists = await prisma.taskList.findMany({
     include: {
       tasks: true,
-      user: true,
     },
   });
   res.json(taskLists);

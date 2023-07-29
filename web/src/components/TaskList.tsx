@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import AddTask from "./AddTask";
 import DeleteTask from "./DeleteTask";
 import UpdateTaskTitle from "./UpdateTaskTitle";
+import { useNavigate } from "react-router-dom";
 
 interface Task {
   id: number;
@@ -16,6 +17,7 @@ interface TaskList {
 }
 
 const TaskList: React.FC = () => {
+  const navigate = useNavigate();
   const [taskLists, setTaskLists] = useState<TaskList[]>([]);
 
   useEffect(() => {
@@ -23,8 +25,14 @@ const TaskList: React.FC = () => {
   }, []);
 
   const fetchTaskLists = async () => {
+    const userID = localStorage.getItem("userID");
+    const jwtToken = localStorage.getItem("jwtToken");
+    if (!userID || !jwtToken) navigate("/login");
+
     try {
-      const res = await fetch("http://localhost:3000/taskLists");
+      const res = await fetch("http://localhost:3000/tasklists/" + userID, {
+        headers: { authorization: "Bearer " + jwtToken },
+      });
       const data = await res.json();
       setTaskLists(data);
     } catch (error) {
