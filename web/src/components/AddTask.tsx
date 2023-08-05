@@ -27,11 +27,14 @@ const AddTask: React.FC<AddTaskProps> = ({ taskListId, fetchTaskLists }) => {
       taskListId,
     };
 
+    const jwtToken = localStorage.getItem("jwtToken");
+
     try {
       const response = await fetch("http://localhost:3000/tasks", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          authorization: "Bearer " + jwtToken,
         },
         body: JSON.stringify(taskData),
       });

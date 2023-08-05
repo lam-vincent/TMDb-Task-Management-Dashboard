@@ -83,6 +83,14 @@ const LoginForm: React.FC = () => {
       >
         Login
       </button>
+
+      <button
+        type="button"
+        onClick={() => navigate("/register")}
+        className="text-center w-full underline mt-6 hover:text-blue-500"
+      >
+        register yet
+      </button>
     </form>
   );
 };

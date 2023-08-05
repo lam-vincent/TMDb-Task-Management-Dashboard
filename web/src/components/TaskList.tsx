@@ -32,7 +32,10 @@ const TaskList: React.FC = () => {
       const res = await fetch("http://localhost:3000/tasklists", {
         headers: { authorization: "Bearer " + jwtToken },
       });
-      if (res.status == 401) navigate("/login");
+      if (res.status == 401) {
+        alert("Not logged in");
+        navigate("/login");
+      }
       const data = await res.json();
       setTaskLists(data);
     } catch (error) {

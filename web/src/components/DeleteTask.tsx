@@ -7,9 +7,14 @@ interface DeleteTaskProps {
 
 const DeleteTask: React.FC<DeleteTaskProps> = ({ taskId, onDelete }) => {
   const handleDelete = async () => {
+    const jwtToken = localStorage.getItem("jwtToken");
+
     try {
       const response = await fetch(`http://localhost:3000/tasks/${taskId}`, {
         method: "DELETE",
+        headers: {
+          authorization: "Bearer " + jwtToken,
+        },
       });
 
       if (response.ok) {

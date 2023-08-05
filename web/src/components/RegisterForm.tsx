@@ -108,6 +108,14 @@ const RegisterForm: React.FC = () => {
       >
         Register
       </button>
+
+      <button
+        type="button"
+        onClick={() => navigate("/login")}
+        className="text-center w-full underline mt-6 hover:text-blue-500"
+      >
+        already have an account ?
+      </button>
     </form>
   );
 };

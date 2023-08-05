@@ -1,9 +1,11 @@
 import React from "react";
 import TaskList from "../components/TaskList";
 import vincentImage from "../../public/vincent.png";
+import { useNavigate } from "react-router-dom";
 
 const Home: React.FC = () => {
   const backgroundImage = "background-image-3.jpg";
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -43,13 +45,22 @@ const Home: React.FC = () => {
                 </ul>
               </div>
               <div>
-                <span className="underline">sign out</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    navigate("/login");
+                    localStorage.removeItem("jwtToken");
+                  }}
+                  className="text-center w-full underline hover:text-blue-500"
+                >
+                  sign out
+                </button>
               </div>
             </aside>
             <section className="flex flex-col justify-center items-center w-full h-full">
               <div className="w-full px-8">
                 <div className="flex justify-between items-center">
-                  <h1 className="text-2xl font-bold mb-2">Hi, Vincent!</h1>
+                  <h1 className="text-2xl font-bold mb-2">Hi, {username}!</h1>
                   <div className="w-10 h-10 bg-gray-400 rounded-full">
                     <img
                       src={vincentImage}
