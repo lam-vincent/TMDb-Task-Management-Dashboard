@@ -33,8 +33,8 @@ const TaskList: React.FC = () => {
         headers: { authorization: "Bearer " + jwtToken },
       });
       if (res.status == 401) {
-        alert("Not logged in");
         navigate("/login");
+        alert("not logged in");
       }
       const data = await res.json();
       setTaskLists(data);

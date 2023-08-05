@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import express from "express";
 import cors from "cors";
 import authRoutes from "./routes/authRoutes";
+import userRoutes from "./routes/userRoutes";
 import { authMiddleware } from "./middlewares/authMiddleware";
 
 const prisma = new PrismaClient();
@@ -28,6 +29,7 @@ interface TaskList {
 app.use("/api/auth", authRoutes);
 
 app.use(authMiddleware);
+app.use(userRoutes);
 
 app.get("/tasklists", async (req, res) => {
   // @ts-ignore
@@ -46,7 +48,16 @@ app.get("/tasklists", async (req, res) => {
 });
 
 app.post("/tasks", async (req, res) => {
-  const { title, taskListId, userId } = req.body;
+  const { title, taskListId } = req.body;
+
+  // @ts-ignore
+  const userId = req.userId;
+
+  // reup user id
+  // 1. pass in token in frontend for all other
+  // task related routes and go to register page if not logged in
+  // 2. refactor registering account using "connect" instead
+  // of userId: userId
   try {
     const task = await prisma.task.create({
       data: {

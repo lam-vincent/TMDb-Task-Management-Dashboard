@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import TaskList from "../components/TaskList";
 import vincentImage from "../../public/vincent.png";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,30 @@ import { useNavigate } from "react-router-dom";
 const Home: React.FC = () => {
   const backgroundImage = "background-image-3.jpg";
   const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    fetchUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const fetchUser = async () => {
+    const jwtToken = localStorage.getItem("jwtToken");
+    if (!jwtToken) navigate("/login");
+
+    try {
+      const res = await fetch("http://localhost:3000/me", {
+        headers: { authorization: "Bearer " + jwtToken },
+      });
+      if (res.status == 401) {
+        navigate("/login");
+      }
+      const data = await res.json();
+      setUsername(data.username);
+    } catch (error) {
+      console.error("Error retrieving user:", error);
+    }
+  };
 
   return (
     <div>
