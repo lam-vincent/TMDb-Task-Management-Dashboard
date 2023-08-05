@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TaskList from "../components/TaskList";
-import vincentImage from "../../public/vincent.png";
 import { useNavigate } from "react-router-dom";
+import ProfileImage from "../components/ProfileImage";
 
 const Home: React.FC = () => {
   const backgroundImage = "background-image-3.jpg";
@@ -85,13 +85,7 @@ const Home: React.FC = () => {
               <div className="w-full px-8">
                 <div className="flex justify-between items-center">
                   <h1 className="text-2xl font-bold mb-2">Hi, {username}!</h1>
-                  <div className="w-10 h-10 bg-gray-400 rounded-full">
-                    <img
-                      src={vincentImage}
-                      alt="Vincent"
-                      className="w-full h-full object-cover rounded-full"
-                    />
-                  </div>
+                  <ProfileImage />
                 </div>
               </div>
               <div className="w-full">
