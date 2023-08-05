@@ -39,12 +39,15 @@ const UpdateTaskTitle: React.FC<UpdateTaskTitleProps> = ({
     newTitle: string
   ): Promise<void> => {
     try {
+      const jwtToken = localStorage.getItem("jwtToken");
+
       const res = await fetch(
         `http://localhost:3000/tasks/${taskId}/updateTitle`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            authorization: "Bearer " + jwtToken,
           },
           body: JSON.stringify({ title: newTitle }),
         }
@@ -86,10 +89,7 @@ const UpdateTaskTitle: React.FC<UpdateTaskTitleProps> = ({
       ) : (
         <div className="flex justify-between items-center">
           {newTitle}
-          <button
-            onClick={handleEditClick}
-            className="translate-y-1 hover:text-green-500"
-          >
+          <button onClick={handleEditClick} className="hover:text-green-500">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
