@@ -10,7 +10,7 @@ const ProfileImage: React.FC<ProfileImageProps> = ({ profileImageUrl }) => {
   return (
     <div className="relative">
       <div
-        className="w-10 h-10 bg-gray-400 rounded-full relative cursor-pointer"
+        className="w-12 h-12 bg-gray-400 rounded-full relative cursor-pointer"
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
       >
