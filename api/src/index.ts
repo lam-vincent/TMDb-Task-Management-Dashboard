@@ -3,7 +3,8 @@ import express from "express";
 import cors from "cors";
 import authRoutes from "./routes/authRoutes";
 import userRoutes from "./routes/userRoutes";
-import taskRoutes from "./routes/userRoutes";
+import taskRoutes from "./routes/taskRoutes";
+import tasklistRoutes from "./routes/tasklistRoutes";
 import { authMiddleware } from "./middlewares/authMiddleware";
 
 const prisma = new PrismaClient();
@@ -18,6 +19,7 @@ app.use("/api/auth", authRoutes);
 app.use(authMiddleware);
 app.use(userRoutes);
 app.use(taskRoutes);
+app.use(tasklistRoutes);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
