@@ -18,22 +18,6 @@ interface TaskList {
   userId: number;
 }
 
-router.get("/tasklists", async (req, res) => {
-  // @ts-ignore
-  const userID = parseInt(req.userId);
-  const taskLists = await prisma.taskList.findMany({
-    where: {
-      user: {
-        id: userID,
-      },
-    },
-    include: {
-      tasks: true,
-    },
-  });
-  res.json(taskLists);
-});
-
 router.post("/tasks", async (req, res) => {
   const { title, taskListId } = req.body;
 
