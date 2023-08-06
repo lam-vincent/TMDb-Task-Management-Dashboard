@@ -11,11 +11,12 @@ datasource db {
 }
 
 model User {
-  id        Int        @id @default(autoincrement())
-  username  String     @unique
-  password  String
-  taskLists TaskList[]
-  tasks     Task[]
+  id                Int        @id @default(autoincrement())
+  username          String     @unique
+  password          String
+  profilePictureUrl String?    @default("https://cdn-icons-png.flaticon.com/512/1077/1077114.png")
+  taskLists         TaskList[]
+  tasks             Task[]
 }
 
 model TaskList {
