@@ -22,6 +22,7 @@ const TaskList: React.FC = () => {
 
   useEffect(() => {
     fetchTaskLists();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchTaskLists = async () => {
@@ -47,6 +48,9 @@ const TaskList: React.FC = () => {
     taskId: number,
     newTaskListId: number
   ): Promise<void> => {
+    const jwtToken = localStorage.getItem("jwtToken");
+    if (!jwtToken) navigate("/login");
+
     try {
       const res = await fetch(
         `http://localhost:3000/tasks/${taskId}/updateTaskListId`,
@@ -54,6 +58,7 @@ const TaskList: React.FC = () => {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            authorization: "Bearer " + jwtToken,
           },
           body: JSON.stringify({ taskListId: newTaskListId }),
         }
