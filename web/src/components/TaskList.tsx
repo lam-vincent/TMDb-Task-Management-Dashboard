@@ -133,7 +133,7 @@ const TaskList: React.FC = () => {
           >
             <h2 className="text-lg font-semibold p-4 pb-0">{list.title}</h2>
             <div
-              className="task-container rounded-3xl p-4"
+              className="task-container h-80 overflow-auto rounded-3xl p-4"
               onDragOver={(e) => handleDragOver(e)}
               onDrop={(e) => handleDrop(e, list.id)}
             >

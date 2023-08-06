@@ -77,7 +77,7 @@ const AddTask: React.FC<AddTaskProps> = ({ taskListId, fetchTaskLists }) => {
       {showForm && (
         <form
           onSubmit={handleFormSubmit}
-          className="mt-4 flex flex-col justify-center items-center gap-2"
+          className="mt-2 flex flex-col justify-center items-center gap-2"
         >
           <input
             type="text"
