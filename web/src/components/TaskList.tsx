@@ -140,7 +140,7 @@ const TaskList: React.FC = () => {
               {list.tasks.map((task) => (
                 <div
                   key={task.id}
-                  className="task mb-2"
+                  className="task mb-2 rounded-lg px-2 py-1 border-2 border-neutral-600"
                   draggable
                   onDragStart={(e) => handleDragStart(e, task, list.id)}
                 >
