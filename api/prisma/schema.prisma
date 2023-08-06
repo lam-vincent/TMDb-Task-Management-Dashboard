@@ -23,7 +23,7 @@ model TaskList {
   id     Int    @id @default(autoincrement())
   title  String
   tasks  Task[]
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
 }
 
@@ -32,6 +32,6 @@ model Task {
   title      String
   taskList   TaskList @relation(fields: [taskListId], references: [id], onDelete: Cascade)
   taskListId Int
-  user       User     @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     Int
 }
