@@ -4,6 +4,7 @@ import AddTasklist from "./AddTasklist";
 import DeleteTask from "./DeleteTask";
 import DeleteTasklist from "./DeleteTasklist";
 import UpdateTaskTitle from "./UpdateTaskTitle";
+import UpdateTasklistTitle from "./UpdateTasklistTitle";
 import { useNavigate } from "react-router-dom";
 
 interface Task {
@@ -133,7 +134,12 @@ const TaskList: React.FC = () => {
           className="w-80 shrink-0 pr-2 pb-4 bg-neutral-800 rounded-3xl text-white"
         >
           <div className="flex justify-between px-2">
-            <h2 className="text-lg font-semibold p-4 pb-0">{list.title}</h2>
+            {/* <h2 className="text-lg font-semibold p-4 pb-0">{list.title}</h2> */}
+            <UpdateTasklistTitle
+              tasklistId={list.id}
+              currentTitle={list.title}
+              fetchTaskLists={fetchTaskLists}
+            />
             <DeleteTasklist taskListId={list.id} onDelete={fetchTaskLists} />
           </div>
           <div

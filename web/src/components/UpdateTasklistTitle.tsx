@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 
-interface UpdateTaskTitleProps {
-  taskId: number;
+interface UpdateTasklistTitleProps {
+  tasklistId: number;
   currentTitle: string;
   fetchTaskLists: () => void;
 }
 
-const UpdateTaskTitle: React.FC<UpdateTaskTitleProps> = ({
-  taskId,
+const UpdateTasklistTitle: React.FC<UpdateTasklistTitleProps> = ({
+  tasklistId,
   currentTitle,
   fetchTaskLists,
 }) => {
@@ -24,7 +24,7 @@ const UpdateTaskTitle: React.FC<UpdateTaskTitleProps> = ({
 
   const handleSaveClick = () => {
     if (newTitle.trim() !== "") {
-      updateTaskTitle(taskId, newTitle);
+      updateTaskTitle(tasklistId, newTitle);
     }
     setEditing(false);
   };
@@ -35,31 +35,28 @@ const UpdateTaskTitle: React.FC<UpdateTaskTitleProps> = ({
   };
 
   const updateTaskTitle = async (
-    taskId: number,
+    tasklistId: number,
     newTitle: string
   ): Promise<void> => {
     try {
       const jwtToken = localStorage.getItem("jwtToken");
 
-      const res = await fetch(
-        `http://localhost:3000/tasks/${taskId}/updateTitle`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: "Bearer " + jwtToken,
-          },
-          body: JSON.stringify({ title: newTitle }),
-        }
-      );
+      const res = await fetch(`http://localhost:3000/tasklists/${tasklistId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: "Bearer " + jwtToken,
+        },
+        body: JSON.stringify({ title: newTitle }),
+      });
 
       if (res.ok) {
         fetchTaskLists(); // Refresh the task lists after updating the title
       } else {
-        console.error("Failed to update task title:", res.status);
+        console.error("Failed to update tasklist title:", res.status);
       }
     } catch (error) {
-      console.error("Error updating task title:", error);
+      console.error("Error updating tasklist title:", error);
     }
   };
 
@@ -105,4 +102,4 @@ const UpdateTaskTitle: React.FC<UpdateTaskTitleProps> = ({
   );
 };
 
-export default UpdateTaskTitle;
+export default UpdateTasklistTitle;
