@@ -91,8 +91,8 @@ const Home: React.FC = () => {
         style={{ backgroundImage: `url(${backgroundImage})` }}
       >
         <div className="border rounded-3xl w-4/5 h-4/5 p-1 border-gray-100">
-          <div className="flex justify-center items-center w-full h-full p-4 rounded-3xl backdrop-brightness-125 bg-white/30 backdrop-blur-sm">
-            <aside className="flex flex-col justify-between items-center gap-8 w-96 h-full bg-white rounded-3xl p-8 m-2">
+          <div className="flex items-center w-full h-full p-4 rounded-3xl backdrop-brightness-125 bg-white/30 backdrop-blur-sm">
+            <aside className="flex flex-col justify-between items-center gap-8 w-64 h-full bg-white rounded-3xl p-8 m-2">
               <Header />
               <div className="flex justify-between items-center">
                 <span className="text-sm">
@@ -124,7 +124,7 @@ const Home: React.FC = () => {
                 </button>
               </div>
             </aside>
-            <section className="flex flex-col justify-center items-center w-full h-full">
+            <section className="flex-1 overflow-hidden flex flex-col justify-center">
               <div className="w-full px-8">
                 <div className="flex justify-between items-center">
                   <h1 className="text-2xl font-bold mb-2">Hi, {username}!</h1>
@@ -133,9 +133,7 @@ const Home: React.FC = () => {
                   </button>
                 </div>
               </div>
-              <div className="w-full">
-                <TaskList />
-              </div>
+              <TaskList />
             </section>
           </div>
         </div>

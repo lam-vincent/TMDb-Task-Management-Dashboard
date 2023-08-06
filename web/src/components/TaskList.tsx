@@ -124,43 +124,41 @@ const TaskList: React.FC = () => {
   };
 
   return (
-    <div>
-      <div className="flex m-4 gap-4">
-        {taskLists.map((list) => (
+    <div className="flex m-4 gap-4 overflow-x-auto pb-4">
+      {taskLists.map((list) => (
+        <div
+          key={list.id}
+          className="w-80 shrink-0 pr-2 pb-4 bg-neutral-800 rounded-3xl text-white"
+        >
+          <h2 className="text-lg font-semibold p-4 pb-0">{list.title}</h2>
           <div
-            key={list.id}
-            className="task-list w-72 pb-4 bg-neutral-800 rounded-3xl text-white"
+            className="task-container h-80 overflow-auto rounded-3xl p-4"
+            onDragOver={(e) => handleDragOver(e)}
+            onDrop={(e) => handleDrop(e, list.id)}
           >
-            <h2 className="text-lg font-semibold p-4 pb-0">{list.title}</h2>
-            <div
-              className="task-container h-80 overflow-auto rounded-3xl p-4"
-              onDragOver={(e) => handleDragOver(e)}
-              onDrop={(e) => handleDrop(e, list.id)}
-            >
-              {list.tasks.map((task) => (
-                <div
-                  key={task.id}
-                  className="task mb-2 rounded-lg px-2 py-1 border-2 border-neutral-600"
-                  draggable
-                  onDragStart={(e) => handleDragStart(e, task, list.id)}
-                >
-                  <div className="flex">
-                    <div className="w-full">
-                      <UpdateTaskTitle
-                        taskId={task.id}
-                        currentTitle={task.title}
-                        fetchTaskLists={fetchTaskLists}
-                      />
-                    </div>
-                    <DeleteTask taskId={task.id} onDelete={fetchTaskLists} />
+            {list.tasks.map((task) => (
+              <div
+                key={task.id}
+                className="task mb-2 rounded-lg px-2 py-1 border-2 border-neutral-600"
+                draggable
+                onDragStart={(e) => handleDragStart(e, task, list.id)}
+              >
+                <div className="flex">
+                  <div className="w-full">
+                    <UpdateTaskTitle
+                      taskId={task.id}
+                      currentTitle={task.title}
+                      fetchTaskLists={fetchTaskLists}
+                    />
                   </div>
+                  <DeleteTask taskId={task.id} onDelete={fetchTaskLists} />
                 </div>
-              ))}
-            </div>
-            <AddTask taskListId={list.id} fetchTaskLists={fetchTaskLists} />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+          <AddTask taskListId={list.id} fetchTaskLists={fetchTaskLists} />
+        </div>
+      ))}
     </div>
   );
 };

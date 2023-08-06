@@ -56,7 +56,7 @@ const AddTask: React.FC<AddTaskProps> = ({ taskListId, fetchTaskLists }) => {
     <div className="flex justify-center items-center">
       {!showForm && (
         <button
-          className="flex justify-center items-center w-full mx-4 bg-yellow-500 hover:bg-yellow-600 text-neutral-800 font-bold p-1 rounded-xl"
+          className="flex justify-center items-center w-full ml-4 mr-2 bg-yellow-500 hover:bg-yellow-600 text-neutral-800 font-bold p-1 rounded-xl"
           onClick={() => setShowForm(true)}
         >
           <svg
