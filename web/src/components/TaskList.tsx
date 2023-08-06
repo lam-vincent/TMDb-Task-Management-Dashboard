@@ -129,11 +129,11 @@ const TaskList: React.FC = () => {
         {taskLists.map((list) => (
           <div
             key={list.id}
-            className="task-list w-1/3 pb-4 bg-neutral-800 rounded-3xl text-white"
+            className="task-list w-72 pb-4 bg-neutral-800 rounded-3xl text-white"
           >
-            <h2 className="text-lg font-semibold p-4">{list.title}</h2>
+            <h2 className="text-lg font-semibold p-4 pb-0">{list.title}</h2>
             <div
-              className="task-container rounded-3xl p-4 mb-4"
+              className="task-container rounded-3xl p-4"
               onDragOver={(e) => handleDragOver(e)}
               onDrop={(e) => handleDrop(e, list.id)}
             >
