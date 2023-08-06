@@ -3,6 +3,7 @@ import TaskList from "../components/TaskList";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "../components/Modal";
 import ProfileImage from "../components/ProfileImage";
+import Header from "../components/Header";
 
 const Home: React.FC = () => {
   const backgroundImage = "background-image-3.jpg";
@@ -92,17 +93,7 @@ const Home: React.FC = () => {
         <div className="border rounded-3xl w-4/5 h-4/5 p-1 border-gray-100">
           <div className="flex justify-center items-center w-full h-full p-4 rounded-3xl backdrop-brightness-125 bg-white/30 backdrop-blur-sm">
             <aside className="flex flex-col justify-between items-center gap-8 w-96 h-full bg-white rounded-3xl p-8 m-2">
-              <div className="flex flex-col justify-center items-center gap-4">
-                <div className="flex justify-center items-center gap-1 font-bold">
-                  <h1 className="text-2xl font-extrabold bg-yellow-500 p-1.5 pt-1 rounded">
-                    TMDb
-                  </h1>
-                  <span className="text-xs translate-y-1">:</span>
-                  <span className="text-xs translate-y-1">
-                    Task Management Dashboard
-                  </span>
-                </div>
-              </div>
+              <Header />
               <div className="flex justify-between items-center">
                 <span className="text-sm">
                   Simple and efficient tasks application
