@@ -30,7 +30,7 @@ model TaskList {
 model Task {
   id         Int      @id @default(autoincrement())
   title      String
-  taskList   TaskList @relation(fields: [taskListId], references: [id])
+  taskList   TaskList @relation(fields: [taskListId], references: [id], onDelete: Cascade)
   taskListId Int
   user       User     @relation(fields: [userId], references: [id])
   userId     Int

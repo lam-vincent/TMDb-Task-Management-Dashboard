@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
-interface AddTaskProps {
+interface AddTasklistProps {
   fetchTaskLists: () => void;
 }
 
-const AddTasklist: React.FC<AddTaskProps> = ({ fetchTaskLists }) => {
+const AddTasklist: React.FC<AddTasklistProps> = ({ fetchTaskLists }) => {
   const [showForm, setShowForm] = useState(false);
   const [tasklistTitle, setTasklistTitle] = useState("");
 

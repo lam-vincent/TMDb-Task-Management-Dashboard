@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import AddTask from "./AddTask";
 import AddTasklist from "./AddTasklist";
 import DeleteTask from "./DeleteTask";
+import DeleteTasklist from "./DeleteTasklist";
 import UpdateTaskTitle from "./UpdateTaskTitle";
 import { useNavigate } from "react-router-dom";
 
@@ -131,7 +132,10 @@ const TaskList: React.FC = () => {
           key={list.id}
           className="w-80 shrink-0 pr-2 pb-4 bg-neutral-800 rounded-3xl text-white"
         >
-          <h2 className="text-lg font-semibold p-4 pb-0">{list.title}</h2>
+          <div className="flex justify-between px-2">
+            <h2 className="text-lg font-semibold p-4 pb-0">{list.title}</h2>
+            <DeleteTasklist taskListId={list.id} onDelete={fetchTaskLists} />
+          </div>
           <div
             className="task-container h-80 overflow-auto rounded-3xl p-4 pr-2"
             onDragOver={(e) => handleDragOver(e)}
