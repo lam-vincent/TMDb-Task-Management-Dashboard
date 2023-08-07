@@ -101,29 +101,44 @@ const TaskList: React.FC = () => {
       e.dataTransfer.getData("text/plain")
     );
 
-    // Move the task from sourceListId to targetListId
-    const updatedTaskLists = [...taskLists];
-    const sourceListIndex = updatedTaskLists.findIndex(
-      (list) => list.id === sourceListId
-    );
-    const targetListIndex = updatedTaskLists.findIndex(
-      (list) => list.id === targetListId
-    );
+    // Check if the source and target list IDs are the same (reordering within the same list)
+    if (sourceListId === targetListId) {
+      // Move the task within the same task list
+      const updatedTaskLists = [...taskLists];
+      const listIndex = updatedTaskLists.findIndex(
+        (list) => list.id === targetListId
+      );
+      const taskIndex = updatedTaskLists[listIndex].tasks.findIndex(
+        (t) => t.id === task.id
+      );
+      updatedTaskLists[listIndex].tasks.splice(taskIndex, 1); // Remove the task from its current position
+      updatedTaskLists[listIndex].tasks.push(task); // Add the task to the end of the list
 
-    const taskIndex = updatedTaskLists[sourceListIndex].tasks.findIndex(
-      (t) => t.id === task.id
-    );
-    const movedTask = updatedTaskLists[sourceListIndex].tasks.splice(
-      taskIndex,
-      1
-    )[0];
-    movedTask.taskListId = targetListId; // Update the taskListId of the moved task
-    updatedTaskLists[targetListIndex].tasks.push(movedTask);
+      setTaskLists(updatedTaskLists);
+    } else {
+      // Move the task from sourceListId to targetListId (same as the existing handleDrop logic)
+      const updatedTaskLists = [...taskLists];
+      const sourceListIndex = updatedTaskLists.findIndex(
+        (list) => list.id === sourceListId
+      );
+      const targetListIndex = updatedTaskLists.findIndex(
+        (list) => list.id === targetListId
+      );
+      const taskIndex = updatedTaskLists[sourceListIndex].tasks.findIndex(
+        (t) => t.id === task.id
+      );
+      const movedTask = updatedTaskLists[sourceListIndex].tasks.splice(
+        taskIndex,
+        1
+      )[0];
+      movedTask.taskListId = targetListId; // Update the taskListId of the moved task
+      updatedTaskLists[targetListIndex].tasks.push(movedTask);
 
-    setTaskLists(updatedTaskLists);
+      setTaskLists(updatedTaskLists);
 
-    // Call the changeTaskListId function to update the task list ID in the database
-    changeTaskListId(task.id, targetListId);
+      // Call the changeTaskListId function to update the task list ID in the database (same as the existing logic)
+      changeTaskListId(task.id, targetListId);
+    }
   };
 
   return (
@@ -131,7 +146,7 @@ const TaskList: React.FC = () => {
       {taskLists.map((list) => (
         <div
           key={list.id}
-          className="w-80 shrink-0 pr-2 pb-4 bg-neutral-800 rounded-3xl text-white"
+          className="w-80 shrink-0 pr-2 pb-4 bg-neutral-800 rounded-3xl text-white relative" // Add relative positioning
         >
           <div className="flex justify-between px-2">
             {/* <h2 className="text-lg font-semibold p-4 pb-0">{list.title}</h2> */}
@@ -148,24 +163,40 @@ const TaskList: React.FC = () => {
             onDrop={(e) => handleDrop(e, list.id)}
           >
             {list.tasks.map((task) => (
-              <div
-                key={task.id}
-                className="task mb-2 rounded-lg px-2 py-1 border-2 border-neutral-600"
-                draggable
-                onDragStart={(e) => handleDragStart(e, task, list.id)}
-              >
-                <div className="flex">
-                  <div className="w-full">
-                    <UpdateTaskTitle
-                      taskId={task.id}
-                      currentTitle={task.title}
-                      fetchTaskLists={fetchTaskLists}
-                    />
-                  </div>
-                  <DeleteTask taskId={task.id} onDelete={fetchTaskLists} />
+              <React.Fragment key={task.id}>
+                <div className="flex justify-center">
+                  <div
+                    className="line h-[2px] w-11/12 bg-transparent hover:bg-yellow-500 rounded"
+                    style={{ marginTop: "-1px" }}
+                  ></div>
                 </div>
-              </div>
+
+                <div
+                  key={task.id}
+                  className="task rounded-lg px-2 py-1 border-2 border-neutral-600 my-1"
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, task, list.id)}
+                >
+                  <div className="flex">
+                    <div className="w-full">
+                      <UpdateTaskTitle
+                        taskId={task.id}
+                        currentTitle={task.title}
+                        fetchTaskLists={fetchTaskLists}
+                      />
+                    </div>
+                    <DeleteTask taskId={task.id} onDelete={fetchTaskLists} />
+                  </div>
+                </div>
+              </React.Fragment>
             ))}
+
+            <div className="flex justify-center">
+              <div
+                className="line h-[2px] w-11/12 bg-transparent hover:bg-yellow-500 rounded"
+                style={{ marginTop: "-1px" }}
+              ></div>
+            </div>
           </div>
           <AddTask taskListId={list.id} fetchTaskLists={fetchTaskLists} />
         </div>
