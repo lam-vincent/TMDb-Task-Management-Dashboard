@@ -5,7 +5,7 @@ import DeleteTask from "./DeleteTask";
 import DeleteTasklist from "./DeleteTasklist";
 import UpdateTaskTitle from "./UpdateTaskTitle";
 import UpdateTasklistTitle from "./UpdateTasklistTitle";
-import { createRoutesFromChildren, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface Task {
   id: number;
@@ -36,12 +36,26 @@ const TaskList: React.FC = () => {
       const res = await fetch("http://localhost:3000/tasklists", {
         headers: { authorization: "Bearer " + jwtToken },
       });
-      if (res.status == 401) {
+
+      if (res.status === 401) {
         navigate("/login");
-        alert("not logged in");
+        alert("Not logged in");
+        return; // Exit early if not logged in
       }
+
       const data = await res.json();
-      setTaskLists(data);
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const sortedData = data.map((taskList: { tasks: any[] }) => {
+        return {
+          ...taskList,
+          tasks: taskList.tasks.sort(
+            (a: { order: number }, b: { order: number }) => a.order - b.order
+          ),
+        };
+      });
+
+      setTaskLists(sortedData);
     } catch (error) {
       console.error("Error retrieving task lists:", error);
     }
@@ -76,6 +90,36 @@ const TaskList: React.FC = () => {
       console.error("Error updating task list ID:", error);
     }
   };
+
+  async function updateTaskOrder(
+    taskListId: number,
+    taskOrder: number[]
+  ): Promise<void> {
+    try {
+      const jwtToken = localStorage.getItem("jwtToken");
+      if (!jwtToken) throw new Error("Not logged in");
+
+      const res = await fetch(
+        `http://localhost:3000/tasklists/${taskListId}/updateTaskOrder`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + jwtToken,
+          },
+          body: JSON.stringify({ taskOrder }),
+        }
+      );
+
+      if (res.ok) {
+        console.log("Task order updated successfully");
+      } else {
+        console.error("Failed to update task order:", res.status);
+      }
+    } catch (error) {
+      console.error("Error updating task order:", error);
+    }
+  }
 
   const handleDragStart = (
     e: React.DragEvent<HTMLDivElement>,
@@ -168,6 +212,10 @@ const TaskList: React.FC = () => {
         updatedTaskLists[listIndex].tasks.splice(targetTaskIndex, 0, task); // Insert the task at the targetTaskIndex
 
         setTaskLists(updatedTaskLists);
+
+        // Call the updateTaskOrder function to update the task order in the database
+        const newTaskOrder = updatedTaskLists[listIndex].tasks.map((t) => t.id);
+        updateTaskOrder(targetListId, newTaskOrder);
       }
     }
   };

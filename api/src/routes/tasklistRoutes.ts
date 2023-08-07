@@ -9,6 +9,7 @@ interface Task {
   title: string;
   taskListId: number;
   userId: number;
+  order: number;
 }
 
 interface TaskList {
