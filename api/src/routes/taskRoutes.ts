@@ -161,13 +161,12 @@ router.patch("/tasks/:taskId/updateOrder", async (req, res) => {
   const { order } = req.body;
 
   try {
-    // Update the order of the task
     const updatedTask = await prisma.task.update({
       where: {
         id: taskId,
       },
       data: {
-        order: order, // Set the new order value
+        order: order,
       },
     });
 
