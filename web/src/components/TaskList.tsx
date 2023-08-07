@@ -163,40 +163,24 @@ const TaskList: React.FC = () => {
             onDrop={(e) => handleDrop(e, list.id)}
           >
             {list.tasks.map((task) => (
-              <React.Fragment key={task.id}>
-                <div className="flex justify-center">
-                  <div
-                    className="line h-[2px] w-11/12 bg-transparent hover:bg-yellow-500 rounded"
-                    style={{ marginTop: "-1px" }}
-                  ></div>
-                </div>
-
-                <div
-                  key={task.id}
-                  className="task rounded-lg px-2 py-1 border-2 border-neutral-600 my-1"
-                  draggable
-                  onDragStart={(e) => handleDragStart(e, task, list.id)}
-                >
-                  <div className="flex">
-                    <div className="w-full">
-                      <UpdateTaskTitle
-                        taskId={task.id}
-                        currentTitle={task.title}
-                        fetchTaskLists={fetchTaskLists}
-                      />
-                    </div>
-                    <DeleteTask taskId={task.id} onDelete={fetchTaskLists} />
-                  </div>
-                </div>
-              </React.Fragment>
-            ))}
-
-            <div className="flex justify-center">
               <div
-                className="line h-[2px] w-11/12 bg-transparent hover:bg-yellow-500 rounded"
-                style={{ marginTop: "-1px" }}
-              ></div>
-            </div>
+                key={task.id}
+                className="task rounded-lg px-2 py-1 border-2 border-neutral-600 my-1"
+                draggable
+                onDragStart={(e) => handleDragStart(e, task, list.id)}
+              >
+                <div className="flex">
+                  <div className="w-full">
+                    <UpdateTaskTitle
+                      taskId={task.id}
+                      currentTitle={task.title}
+                      fetchTaskLists={fetchTaskLists}
+                    />
+                  </div>
+                  <DeleteTask taskId={task.id} onDelete={fetchTaskLists} />
+                </div>
+              </div>
+            ))}
           </div>
           <AddTask taskListId={list.id} fetchTaskLists={fetchTaskLists} />
         </div>
