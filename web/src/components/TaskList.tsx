@@ -5,7 +5,7 @@ import DeleteTask from "./DeleteTask";
 import DeleteTasklist from "./DeleteTasklist";
 import UpdateTaskTitle from "./UpdateTaskTitle";
 import UpdateTasklistTitle from "./UpdateTasklistTitle";
-import { useNavigate } from "react-router-dom";
+import { createRoutesFromChildren, useNavigate } from "react-router-dom";
 
 interface Task {
   id: number;
@@ -92,7 +92,7 @@ const TaskList: React.FC = () => {
     e.preventDefault();
   };
 
-  const handleDrop = (
+  const handleDropList = (
     e: React.DragEvent<HTMLDivElement>,
     targetListId: number
   ) => {
@@ -101,22 +101,8 @@ const TaskList: React.FC = () => {
       e.dataTransfer.getData("text/plain")
     );
 
-    // Check if the source and target list IDs are the same (reordering within the same list)
-    if (sourceListId === targetListId) {
-      // Move the task within the same task list
-      const updatedTaskLists = [...taskLists];
-      const listIndex = updatedTaskLists.findIndex(
-        (list) => list.id === targetListId
-      );
-      const taskIndex = updatedTaskLists[listIndex].tasks.findIndex(
-        (t) => t.id === task.id
-      );
-      updatedTaskLists[listIndex].tasks.splice(taskIndex, 1); // Remove the task from its current position
-      updatedTaskLists[listIndex].tasks.push(task); // Add the task to the end of the list
-
-      setTaskLists(updatedTaskLists);
-    } else {
-      // Move the task from sourceListId to targetListId (same as the existing handleDrop logic)
+    // Move the task from sourceListId to targetListId
+    if (sourceListId !== targetListId) {
       const updatedTaskLists = [...taskLists];
       const sourceListIndex = updatedTaskLists.findIndex(
         (list) => list.id === sourceListId
@@ -124,6 +110,7 @@ const TaskList: React.FC = () => {
       const targetListIndex = updatedTaskLists.findIndex(
         (list) => list.id === targetListId
       );
+
       const taskIndex = updatedTaskLists[sourceListIndex].tasks.findIndex(
         (t) => t.id === task.id
       );
@@ -136,8 +123,52 @@ const TaskList: React.FC = () => {
 
       setTaskLists(updatedTaskLists);
 
-      // Call the changeTaskListId function to update the task list ID in the database (same as the existing logic)
+      // Call the changeTaskListId function to update the task list ID in the database
       changeTaskListId(task.id, targetListId);
+    }
+  };
+
+  const handleDrop = (
+    e: React.DragEvent<HTMLDivElement>,
+    targetListId: number,
+    taskId?: number
+  ) => {
+    e.preventDefault();
+    const { task, sourceListId } = JSON.parse(
+      e.dataTransfer.getData("text/plain")
+    );
+
+    // Check if the drop occurred within the same task list
+    if (sourceListId === targetListId) {
+      const { tasks } =
+        taskLists.find((list) => list.id === targetListId) || {};
+      if (!tasks) return;
+
+      // Calculate the target task index where the task is dropped
+      const targetTaskIndex = taskId
+        ? tasks.findIndex((t) => t.id === taskId)
+        : tasks.length;
+
+      if (targetTaskIndex !== undefined && targetTaskIndex !== -1) {
+        // Remove the old task when the drop occurs within the same task list
+        const updatedTaskLists = [...taskLists];
+        const listIndex = updatedTaskLists.findIndex(
+          (list) => list.id === targetListId
+        );
+
+        if (taskId) {
+          const oldTaskIndex = updatedTaskLists[listIndex].tasks.findIndex(
+            (t) => t.id === task.id
+          );
+          if (oldTaskIndex !== undefined && oldTaskIndex !== -1) {
+            updatedTaskLists[listIndex].tasks.splice(oldTaskIndex, 1);
+          }
+        }
+
+        updatedTaskLists[listIndex].tasks.splice(targetTaskIndex, 0, task); // Insert the task at the targetTaskIndex
+
+        setTaskLists(updatedTaskLists);
+      }
     }
   };
 
@@ -146,7 +177,7 @@ const TaskList: React.FC = () => {
       {taskLists.map((list) => (
         <div
           key={list.id}
-          className="w-80 shrink-0 pr-2 pb-4 bg-neutral-800 rounded-3xl text-white relative" // Add relative positioning
+          className="w-80 shrink-0 pr-2 pb-4 bg-neutral-800 rounded-3xl text-white relative"
         >
           <div className="flex justify-between px-2">
             {/* <h2 className="text-lg font-semibold p-4 pb-0">{list.title}</h2> */}
@@ -160,7 +191,7 @@ const TaskList: React.FC = () => {
           <div
             className="task-container h-80 overflow-auto rounded-3xl p-4 pr-2"
             onDragOver={(e) => handleDragOver(e)}
-            onDrop={(e) => handleDrop(e, list.id)}
+            onDrop={(e) => handleDropList(e, list.id)}
           >
             {list.tasks.map((task) => (
               <div
@@ -168,6 +199,7 @@ const TaskList: React.FC = () => {
                 className="task rounded-lg px-2 py-1 border-2 border-neutral-600 my-1"
                 draggable
                 onDragStart={(e) => handleDragStart(e, task, list.id)}
+                onDrop={(e) => handleDrop(e, list.id, task.id)}
               >
                 <div className="flex">
                   <div className="w-full">
