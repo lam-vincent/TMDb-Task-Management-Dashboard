@@ -63,7 +63,7 @@ const UpdateTasklistTitle: React.FC<UpdateTasklistTitleProps> = ({
   return (
     <div>
       {editing ? (
-        <div>
+        <div className="mt-4 mx-3">
           <input
             type="text"
             value={newTitle}
@@ -84,9 +84,12 @@ const UpdateTasklistTitle: React.FC<UpdateTasklistTitleProps> = ({
           </button>
         </div>
       ) : (
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center mt-4 mx-3">
           {newTitle}
-          <button onClick={handleEditClick} className="hover:text-green-500">
+          <button
+            onClick={handleEditClick}
+            className="hover:text-green-500 ml-2"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
