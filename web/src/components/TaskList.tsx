@@ -112,6 +112,32 @@ const TaskList: React.FC = () => {
     }
   }
 
+  const updateTaskListOrder = async (
+    taskListOrder: number[]
+  ): Promise<void> => {
+    try {
+      const jwtToken = localStorage.getItem("jwtToken");
+      if (!jwtToken) throw new Error("Not logged in");
+
+      const res = await fetch(`http://localhost:3000/tasklists/updateOrder`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + jwtToken,
+        },
+        body: JSON.stringify({ taskListOrder }),
+      });
+
+      if (res.ok) {
+        console.log("Task list order updated successfully");
+      } else {
+        console.error("Failed to update task list order:", res.status);
+      }
+    } catch (error) {
+      console.error("Error updating task list order:", error);
+    }
+  };
+
   const handleDragStart = (
     e: React.DragEvent<HTMLDivElement>,
     task: Task,
@@ -253,8 +279,7 @@ const TaskList: React.FC = () => {
       // You would need to implement a similar update function as you did for tasks
       // and call it here to update the order in the database
 
-      // Uncomment the following line if you want to call the function
-      // updateTaskListOrder(updatedTaskLists.map((list) => list.id));
+      updateTaskListOrder(updatedTaskLists.map((list) => list.id));
     }
   };
 
