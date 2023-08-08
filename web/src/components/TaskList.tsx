@@ -127,7 +127,7 @@ const TaskList: React.FC = () => {
     e.preventDefault();
   };
 
-  const handleDropList = (
+  const handleDropTaskInAnotherList = (
     e: React.DragEvent<HTMLDivElement>,
     targetListId: number
   ) => {
@@ -222,10 +222,13 @@ const TaskList: React.FC = () => {
       {taskLists.map((list) => (
         <div
           key={list.id}
-          className="w-80 shrink-0 pr-2 pb-4 bg-neutral-800 rounded-3xl text-white relative"
+          className="task-list w-80 shrink-0 pr-2 pb-4 bg-neutral-800 rounded-3xl text-white relative"
+          draggable
+          onDragStart={(e) => handleDragStartList(e, list.id)}
+          onDragOver={(e) => handleDragOver(e)}
+          onDrop={(e) => handleDropList(e, list.id)}
         >
           <div className="flex justify-between px-2">
-            {/* <h2 className="text-lg font-semibold p-4 pb-0">{list.title}</h2> */}
             <UpdateTasklistTitle
               tasklistId={list.id}
               currentTitle={list.title}
@@ -236,7 +239,7 @@ const TaskList: React.FC = () => {
           <div
             className="task-container h-80 overflow-auto rounded-3xl p-4 pr-2"
             onDragOver={(e) => handleDragOver(e)}
-            onDrop={(e) => handleDropList(e, list.id)}
+            onDrop={(e) => handleDropTaskInAnotherList(e, list.id)}
           >
             {list.tasks
               .sort((a, b) => a.order - b.order) // Sort tasks by order
