@@ -123,6 +123,13 @@ const TaskList: React.FC = () => {
     );
   };
 
+  const handleDragStartList = (
+    e: React.DragEvent<HTMLDivElement>,
+    listId: number
+  ) => {
+    e.dataTransfer.setData("text/plain", JSON.stringify({ listId }));
+  };
+
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
   };
