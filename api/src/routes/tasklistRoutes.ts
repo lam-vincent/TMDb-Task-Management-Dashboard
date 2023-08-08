@@ -93,4 +93,28 @@ router.patch("/tasklists/:taskListId", async (req, res) => {
   }
 });
 
+router.patch("/tasklists/updateOrder", async (req, res) => {
+  const { taskListOrder } = req.body;
+
+  try {
+    // Update the order of task lists in the database
+    for (let i = 0; i < taskListOrder.length; i++) {
+      const taskListId = taskListOrder[i];
+      await prisma.taskList.update({
+        where: {
+          id: taskListId,
+        },
+        data: {
+          order: i, // Set the new order
+        },
+      });
+    }
+
+    res.json({ message: "Task list order updated successfully" });
+  } catch (error) {
+    console.error("Error updating task list order:", error);
+    res.status(500).json({ error: "An error occurred" });
+  }
+});
+
 export default router;
