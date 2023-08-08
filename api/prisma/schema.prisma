@@ -22,6 +22,7 @@ model User {
 model TaskList {
   id     Int    @id @default(autoincrement())
   title  String
+  order  Int    @default(0)
   tasks  Task[]
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
