@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import { log } from "console";
 
 const prisma = new PrismaClient();
 const router = express.Router();
@@ -9,6 +10,7 @@ interface Task {
   title: string;
   taskListId: number;
   userId: number;
+  order: number;
 }
 
 interface TaskList {

@@ -8,6 +8,7 @@ import UpdateTasklistTitle from "./UpdateTasklistTitle";
 import { useNavigate } from "react-router-dom";
 
 interface Task {
+  order: number;
   id: number;
   title: string;
   taskListId: number;
@@ -45,17 +46,7 @@ const TaskList: React.FC = () => {
 
       const data = await res.json();
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const sortedData = data.map((taskList: { tasks: any[] }) => {
-        return {
-          ...taskList,
-          tasks: taskList.tasks.sort(
-            (a: { order: number }, b: { order: number }) => a.order - b.order
-          ),
-        };
-      });
-
-      setTaskLists(sortedData);
+      setTaskLists(data);
     } catch (error) {
       console.error("Error retrieving task lists:", error);
     }
@@ -82,7 +73,7 @@ const TaskList: React.FC = () => {
       );
 
       if (res.ok) {
-        fetchTaskLists(); // Refresh the task lists after updating the task list ID
+        fetchTaskLists();
       } else {
         console.error("Failed to update task list ID:", res.status);
       }
@@ -92,27 +83,27 @@ const TaskList: React.FC = () => {
   };
 
   async function updateTaskOrder(
-    taskListId: number,
-    taskOrder: number[]
+    taskIdOrder: number[],
+    orderValue: number
   ): Promise<void> {
     try {
       const jwtToken = localStorage.getItem("jwtToken");
       if (!jwtToken) throw new Error("Not logged in");
 
       const res = await fetch(
-        `http://localhost:3000/tasklists/${taskListId}/updateTaskOrder`,
+        `http://localhost:3000/tasks/${taskIdOrder}/updateOrder`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + jwtToken,
           },
-          body: JSON.stringify({ taskOrder }),
+          body: JSON.stringify({ order: orderValue }),
         }
       );
 
       if (res.ok) {
-        console.log("Task order updated successfully");
+        console.log("updateTaskOrder(): Task order updated successfully");
       } else {
         console.error("Failed to update task order:", res.status);
       }
@@ -165,14 +156,12 @@ const TaskList: React.FC = () => {
       movedTask.taskListId = targetListId; // Update the taskListId of the moved task
       updatedTaskLists[targetListIndex].tasks.push(movedTask);
 
-      setTaskLists(updatedTaskLists);
-
       // Call the changeTaskListId function to update the task list ID in the database
       changeTaskListId(task.id, targetListId);
     }
   };
 
-  const handleDrop = (
+  const handleDrop = async (
     e: React.DragEvent<HTMLDivElement>,
     targetListId: number,
     taskId?: number
@@ -211,11 +200,19 @@ const TaskList: React.FC = () => {
 
         updatedTaskLists[listIndex].tasks.splice(targetTaskIndex, 0, task); // Insert the task at the targetTaskIndex
 
-        setTaskLists(updatedTaskLists);
-
         // Call the updateTaskOrder function to update the task order in the database
-        const newTaskOrder = updatedTaskLists[listIndex].tasks.map((t) => t.id);
-        updateTaskOrder(targetListId, newTaskOrder);
+        const taskIdOrder = updatedTaskLists[listIndex].tasks.map((t) => t.id);
+
+        for (let i = 0; i < taskIdOrder.length; i++) {
+          try {
+            await updateTaskOrder([taskIdOrder[i]], i);
+            console.log("updatedTaskLists", updatedTaskLists);
+          } catch (error) {
+            console.error(`Failed to update task order ${i + 1}:`, error);
+          }
+        }
+
+        fetchTaskLists();
       }
     }
   };
@@ -241,26 +238,28 @@ const TaskList: React.FC = () => {
             onDragOver={(e) => handleDragOver(e)}
             onDrop={(e) => handleDropList(e, list.id)}
           >
-            {list.tasks.map((task) => (
-              <div
-                key={task.id}
-                className="task rounded-lg px-2 py-1 border-2 border-neutral-600 my-1"
-                draggable
-                onDragStart={(e) => handleDragStart(e, task, list.id)}
-                onDrop={(e) => handleDrop(e, list.id, task.id)}
-              >
-                <div className="flex">
-                  <div className="w-full">
-                    <UpdateTaskTitle
-                      taskId={task.id}
-                      currentTitle={task.title}
-                      fetchTaskLists={fetchTaskLists}
-                    />
+            {list.tasks
+              .sort((a, b) => a.order - b.order) // Sort tasks by order
+              .map((task) => (
+                <div
+                  key={task.id}
+                  className="task rounded-lg px-2 py-1 border-2 border-neutral-600 my-1"
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, task, list.id)}
+                  onDrop={(e) => handleDrop(e, list.id, task.id)}
+                >
+                  <div className="flex">
+                    <div className="w-full">
+                      <UpdateTaskTitle
+                        taskId={task.id}
+                        currentTitle={task.title}
+                        fetchTaskLists={fetchTaskLists}
+                      />
+                    </div>
+                    <DeleteTask taskId={task.id} onDelete={fetchTaskLists} />
                   </div>
-                  <DeleteTask taskId={task.id} onDelete={fetchTaskLists} />
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
           <AddTask taskListId={list.id} fetchTaskLists={fetchTaskLists} />
         </div>
