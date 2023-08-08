@@ -288,7 +288,7 @@ const TaskList: React.FC = () => {
           className="task-list w-80 shrink-0 pr-2 pb-4 bg-neutral-800 rounded-3xl text-white relative"
           draggable
           onDragStart={(e) => handleDragStartList(e, list.id)}
-          onDragOver={(e) => handleDragOver(e)}
+          onDragOver={handleDragOver}
           onDrop={(e) => handleDropList(e, list.id)}
         >
           <div className="flex justify-between px-2">
@@ -301,7 +301,7 @@ const TaskList: React.FC = () => {
           </div>
           <div
             className="task-container h-80 overflow-auto rounded-3xl p-4 pr-2"
-            onDragOver={(e) => handleDragOver(e)}
+            onDragOver={handleDragOver}
             onDrop={(e) => handleDropTaskInAnotherList(e, list.id)}
           >
             {list.tasks
