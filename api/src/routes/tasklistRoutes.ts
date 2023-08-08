@@ -17,6 +17,7 @@ interface TaskList {
   title: string;
   tasks: Task[];
   userId: number;
+  order: number;
 }
 
 router.get("/tasklists", async (req, res) => {

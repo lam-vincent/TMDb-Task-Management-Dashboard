@@ -8,16 +8,19 @@ import UpdateTasklistTitle from "./UpdateTasklistTitle";
 import { useNavigate } from "react-router-dom";
 
 interface Task {
-  order: number;
   id: number;
   title: string;
   taskListId: number;
+  userId: number;
+  order: number;
 }
 
 interface TaskList {
   id: number;
   title: string;
   tasks: Task[];
+  userId: number;
+  order: number;
 }
 
 const TaskList: React.FC = () => {
@@ -125,7 +128,7 @@ const TaskList: React.FC = () => {
           "Content-Type": "application/json",
           Authorization: "Bearer " + jwtToken,
         },
-        body: JSON.stringify({ taskListOrder }),
+        body: JSON.stringify({ order: taskListOrder }),
       });
 
       if (res.ok) {
@@ -255,9 +258,7 @@ const TaskList: React.FC = () => {
     targetListId: number
   ) => {
     e.preventDefault();
-    const { task, sourceListId } = JSON.parse(
-      e.dataTransfer.getData("text/plain")
-    );
+    const { sourceListId } = JSON.parse(e.dataTransfer.getData("text/plain"));
 
     // Move the task from sourceListId to targetListId
     if (sourceListId !== targetListId) {
