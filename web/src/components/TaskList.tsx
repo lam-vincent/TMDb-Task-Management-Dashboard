@@ -224,6 +224,40 @@ const TaskList: React.FC = () => {
     }
   };
 
+  const handleDropList = (
+    e: React.DragEvent<HTMLDivElement>,
+    targetListId: number
+  ) => {
+    e.preventDefault();
+    const { task, sourceListId } = JSON.parse(
+      e.dataTransfer.getData("text/plain")
+    );
+
+    // Move the task from sourceListId to targetListId
+    if (sourceListId !== targetListId) {
+      const updatedTaskLists = [...taskLists];
+      const sourceListIndex = updatedTaskLists.findIndex(
+        (list) => list.id === sourceListId
+      );
+      const targetListIndex = updatedTaskLists.findIndex(
+        (list) => list.id === targetListId
+      );
+
+      const taskList = updatedTaskLists[sourceListIndex];
+      updatedTaskLists.splice(sourceListIndex, 1); // Remove from source index
+      updatedTaskLists.splice(targetListIndex, 0, taskList); // Insert at target index
+
+      setTaskLists(updatedTaskLists);
+
+      // TODO: Update the order of task lists in the database
+      // You would need to implement a similar update function as you did for tasks
+      // and call it here to update the order in the database
+
+      // Uncomment the following line if you want to call the function
+      // updateTaskListOrder(updatedTaskLists.map((list) => list.id));
+    }
+  };
+
   return (
     <div className="flex m-4 gap-4 overflow-x-auto pb-4">
       {taskLists.map((list) => (
