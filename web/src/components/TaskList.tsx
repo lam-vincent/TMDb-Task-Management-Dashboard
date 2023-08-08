@@ -275,11 +275,8 @@ const TaskList: React.FC = () => {
 
       setTaskLists(updatedTaskLists);
 
-      // TODO: Update the order of task lists in the database
-      // You would need to implement a similar update function as you did for tasks
-      // and call it here to update the order in the database
-
       updateTaskListOrder(updatedTaskLists.map((list) => list.id));
+      fetchTaskLists();
     }
   };
 
