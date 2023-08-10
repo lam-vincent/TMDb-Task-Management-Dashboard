@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import { log } from "console";
 
 const prisma = new PrismaClient();
 const router = express.Router();
@@ -99,6 +100,9 @@ router.patch("/tasklists/updateOrder", async (req, res) => {
 
   try {
     // Update the order of task lists in the database
+
+    console.log("enter patch");
+
     for (let i = 0; i < taskListOrder.length; i++) {
       const taskListId = taskListOrder[i];
       await prisma.taskList.update({

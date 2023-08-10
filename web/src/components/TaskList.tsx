@@ -154,9 +154,9 @@ const TaskList: React.FC = () => {
 
   const handleDragStartList = (
     e: React.DragEvent<HTMLDivElement>,
-    listId: number
+    sourceListId: number
   ) => {
-    e.dataTransfer.setData("text/plain", JSON.stringify({ listId }));
+    e.dataTransfer.setData("text/plain", JSON.stringify({ sourceListId }));
   };
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
@@ -259,77 +259,90 @@ const TaskList: React.FC = () => {
     e.preventDefault();
     const { sourceListId } = JSON.parse(e.dataTransfer.getData("text/plain"));
 
-    // Move the task from sourceListId to targetListId
     if (sourceListId !== targetListId) {
       const updatedTaskLists = [...taskLists];
+
       const sourceListIndex = updatedTaskLists.findIndex(
         (list) => list.id === sourceListId
       );
+
+      if (sourceListIndex === -1) {
+        return; // Source list not found, handle error gracefully
+      }
+
+      const taskList = updatedTaskLists[sourceListIndex];
+      updatedTaskLists.splice(sourceListIndex, 1); // Remove from source index
+
       const targetListIndex = updatedTaskLists.findIndex(
         (list) => list.id === targetListId
       );
 
-      const taskList = updatedTaskLists[sourceListIndex];
-      updatedTaskLists.splice(sourceListIndex, 1); // Remove from source index
+      if (targetListIndex === -1) {
+        return; // Target list not found, handle error gracefully
+      }
+
       updatedTaskLists.splice(targetListIndex, 0, taskList); // Insert at target index
 
       setTaskLists(updatedTaskLists);
 
       updateTaskListOrder(updatedTaskLists.map((list) => list.id));
+
       fetchTaskLists();
     }
   };
 
   return (
     <div className="flex m-4 gap-4 overflow-x-auto pb-4">
-      {taskLists.map((list) => (
-        <div
-          key={list.id}
-          className="task-list w-80 shrink-0 pr-2 pb-4 bg-neutral-800 rounded-3xl text-white relative"
-          // draggable
-          // onDragStart={(e) => handleDragStartList(e, list.id)}
-          // onDragOver={handleDragOver}
-          // onDrop={(e) => handleDropList(e, list.id)}
-        >
-          <div className="flex justify-between px-2">
-            <UpdateTasklistTitle
-              tasklistId={list.id}
-              currentTitle={list.title}
-              fetchTaskLists={fetchTaskLists}
-            />
-            <DeleteTasklist taskListId={list.id} onDelete={fetchTaskLists} />
-          </div>
+      {taskLists
+        .sort((a, b) => a.order - b.order) // Sort task lists by order
+        .map((list) => (
           <div
-            className="task-container h-80 overflow-auto rounded-3xl p-4 pr-2"
+            key={list.id}
+            className="task-list w-80 shrink-0 pr-2 pb-4 bg-neutral-800 rounded-3xl text-white relative"
+            draggable
+            onDragStart={(e) => handleDragStartList(e, list.id)}
             onDragOver={handleDragOver}
-            onDrop={(e) => handleDropTaskInAnotherList(e, list.id)}
+            onDrop={(e) => handleDropList(e, list.id)}
           >
-            {list.tasks
-              .sort((a, b) => a.order - b.order) // Sort tasks by order
-              .map((task) => (
-                <div
-                  key={task.id}
-                  className="task rounded-lg px-2 py-1 border-2 border-neutral-600 my-1"
-                  draggable
-                  onDragStart={(e) => handleDragStart(e, task, list.id)}
-                  onDrop={(e) => handleDrop(e, list.id, task.id)}
-                >
-                  <div className="flex">
-                    <div className="w-full">
-                      <UpdateTaskTitle
-                        taskId={task.id}
-                        currentTitle={task.title}
-                        fetchTaskLists={fetchTaskLists}
-                      />
+            <div className="flex justify-between px-2">
+              <UpdateTasklistTitle
+                tasklistId={list.id}
+                currentTitle={list.title}
+                fetchTaskLists={fetchTaskLists}
+              />
+              <DeleteTasklist taskListId={list.id} onDelete={fetchTaskLists} />
+            </div>
+            <div
+              className="task-container h-80 overflow-auto rounded-3xl p-4 pr-2"
+              // onDragOver={handleDragOver}
+              // onDrop={(e) => handleDropTaskInAnotherList(e, list.id)}
+            >
+              {list.tasks
+                .sort((a, b) => a.order - b.order) // Sort tasks by order
+                .map((task) => (
+                  <div
+                    key={task.id}
+                    className="task rounded-lg px-2 py-1 border-2 border-neutral-600 my-1"
+                    // draggable
+                    // onDragStart={(e) => handleDragStart(e, task, list.id)}
+                    // onDrop={(e) => handleDrop(e, list.id, task.id)}
+                  >
+                    <div className="flex">
+                      <div className="w-full">
+                        <UpdateTaskTitle
+                          taskId={task.id}
+                          currentTitle={task.title}
+                          fetchTaskLists={fetchTaskLists}
+                        />
+                      </div>
+                      <DeleteTask taskId={task.id} onDelete={fetchTaskLists} />
                     </div>
-                    <DeleteTask taskId={task.id} onDelete={fetchTaskLists} />
                   </div>
-                </div>
-              ))}
+                ))}
+            </div>
+            <AddTask taskListId={list.id} fetchTaskLists={fetchTaskLists} />
           </div>
-          <AddTask taskListId={list.id} fetchTaskLists={fetchTaskLists} />
-        </div>
-      ))}
+        ))}
       <AddTasklist fetchTaskLists={fetchTaskLists} />
     </div>
   );
