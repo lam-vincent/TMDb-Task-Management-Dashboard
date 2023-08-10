@@ -287,10 +287,10 @@ const TaskList: React.FC = () => {
         <div
           key={list.id}
           className="task-list w-80 shrink-0 pr-2 pb-4 bg-neutral-800 rounded-3xl text-white relative"
-          draggable
-          onDragStart={(e) => handleDragStartList(e, list.id)}
-          onDragOver={handleDragOver}
-          onDrop={(e) => handleDropList(e, list.id)}
+          // draggable
+          // onDragStart={(e) => handleDragStartList(e, list.id)}
+          // onDragOver={handleDragOver}
+          // onDrop={(e) => handleDropList(e, list.id)}
         >
           <div className="flex justify-between px-2">
             <UpdateTasklistTitle
