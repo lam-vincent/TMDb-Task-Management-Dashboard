@@ -25,6 +25,7 @@ interface TaskList {
 
 const TaskList: React.FC = () => {
   const navigate = useNavigate();
+  const [taskLists, setTaskLists] = useState<TaskList[]>([]);
 
   useEffect(() => {
     fetchTaskLists();
@@ -47,6 +48,8 @@ const TaskList: React.FC = () => {
       }
 
       const data = await res.json();
+
+      setTaskLists(data);
     } catch (error) {
       console.error("Error retrieving task lists:", error);
     }
@@ -269,6 +272,8 @@ const TaskList: React.FC = () => {
       const taskList = updatedTaskLists[sourceListIndex];
       updatedTaskLists.splice(sourceListIndex, 1); // Remove from source index
       updatedTaskLists.splice(targetListIndex, 0, taskList); // Insert at target index
+
+      setTaskLists(updatedTaskLists);
 
       updateTaskListOrder(updatedTaskLists.map((list) => list.id));
       fetchTaskLists();
