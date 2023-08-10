@@ -27,11 +27,6 @@ router.post("/tasks", async (req, res) => {
   // @ts-ignore
   const userId = req.userId;
 
-  // reup user id
-  // 1. pass in token in frontend for all other
-  // task related routes and go to register page if not logged in
-  // 2. refactor registering account using "connect" instead
-  // of userId: userId
   try {
     const task = await prisma.task.create({
       data: {

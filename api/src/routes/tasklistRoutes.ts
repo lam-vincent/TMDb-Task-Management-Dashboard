@@ -106,7 +106,7 @@ router.patch("/tasklists/updateOrder", async (req, res) => {
           id: taskListId,
         },
         data: {
-          order: i, // Set the new order
+          order: i,
         },
       });
     }
