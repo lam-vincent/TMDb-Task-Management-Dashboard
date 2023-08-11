@@ -24,7 +24,7 @@ const UpdateTasklistTitle: React.FC<UpdateTasklistTitleProps> = ({
 
   const handleSaveClick = () => {
     if (newTitle.trim() !== "") {
-      updateTaskTitle(tasklistId, newTitle);
+      updateTasklistTitle(tasklistId, newTitle);
     }
     setEditing(false);
   };
@@ -34,7 +34,7 @@ const UpdateTasklistTitle: React.FC<UpdateTasklistTitleProps> = ({
     setEditing(false);
   };
 
-  const updateTaskTitle = async (
+  const updateTasklistTitle = async (
     tasklistId: number,
     newTitle: string
   ): Promise<void> => {

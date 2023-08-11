@@ -79,6 +79,7 @@ router.delete("/tasklists/:taskListId", async (req, res) => {
 
 router.patch("/tasklists/:taskListId", async (req, res) => {
   try {
+    console.log("req.params.taskListId", req.params.taskListId);
     const taskListId = parseInt(req.params.taskListId);
     const { title } = req.body;
 
@@ -95,27 +96,24 @@ router.patch("/tasklists/:taskListId", async (req, res) => {
   }
 });
 
-router.patch("/tasklists/updateOrder", async (req, res) => {
-  const { taskListOrder } = req.body;
+router.patch("/tasklists/:tasklistId/updateOrder", async (req, res) => {
+  const taskListId = parseInt(req.params.tasklistId);
+  const { order } = req.body;
 
   try {
-    // Update the order of task lists in the database
+    const updatedTasklist = await prisma.taskList.update({
+      where: {
+        id: taskListId,
+      },
+      data: {
+        order: order,
+      },
+    });
 
-    console.log("enter patch");
-
-    for (let i = 0; i < taskListOrder.length; i++) {
-      const taskListId = taskListOrder[i];
-      await prisma.taskList.update({
-        where: {
-          id: taskListId,
-        },
-        data: {
-          order: i,
-        },
-      });
-    }
-
-    res.json({ message: "Task list order updated successfully" });
+    res.json({
+      message: "Task list order updated successfully",
+      tasklist: updatedTasklist,
+    });
   } catch (error) {
     console.error("Error updating task list order:", error);
     res.status(500).json({ error: "An error occurred" });

@@ -262,26 +262,44 @@ const TaskList: React.FC = () => {
     if (sourceListId !== targetListId) {
       const updatedTaskLists = [...taskLists];
 
+      console.log("updatedTaskLists", updatedTaskLists);
+
       const sourceListIndex = updatedTaskLists.findIndex(
         (list) => list.id === sourceListId
       );
 
       if (sourceListIndex === -1) {
-        return; // Source list not found, handle error gracefully
+        console.log("Source list not found");
+        return;
       }
-
-      const taskList = updatedTaskLists[sourceListIndex];
-      updatedTaskLists.splice(sourceListIndex, 1); // Remove from source index
 
       const targetListIndex = updatedTaskLists.findIndex(
         (list) => list.id === targetListId
       );
 
       if (targetListIndex === -1) {
-        return; // Target list not found, handle error gracefully
+        console.log("Target list not found");
+        return;
       }
 
-      updatedTaskLists.splice(targetListIndex, 0, taskList); // Insert at target index
+      if (targetListIndex < sourceListIndex) {
+        console.log("targetListIndex < sourceListIndex");
+
+        updatedTaskLists.splice(
+          targetListIndex,
+          0,
+          updatedTaskLists[sourceListIndex]
+        ); // add case where targetListIndex <  sourceListIndex
+        updatedTaskLists.splice(sourceListIndex + 1, 1); // remove case where targetListIndex < sourceListIndex
+      } else {
+        console.log("targetListIndex > sourceListIndex");
+        console.log("updatedTaskLists", updatedTaskLists);
+
+        updatedTaskLists.push(updatedTaskLists[sourceListIndex]); // add case where targetListIndex > sourceListIndex
+        console.log("updatedTaskLists", updatedTaskLists);
+        updatedTaskLists.splice(sourceListIndex, 1); // remove case where targetListIndex > sourceListIndex
+        console.log("updatedTaskLists", updatedTaskLists);
+      }
 
       setTaskLists(updatedTaskLists);
 
