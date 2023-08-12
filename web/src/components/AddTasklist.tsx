@@ -25,24 +25,50 @@ const AddTasklist: React.FC<AddTasklistProps> = ({ fetchTaskLists }) => {
     const jwtToken = localStorage.getItem("jwtToken");
 
     try {
+      // Fetch the existing task lists
       const response = await fetch("http://localhost:3000/tasklists", {
-        method: "POST",
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
           authorization: "Bearer " + jwtToken,
         },
-        body: JSON.stringify(taskData),
       });
 
       if (response.ok) {
-        const newTask = await response.json();
-        console.log("Created task:", newTask);
-        fetchTaskLists();
+        const existingTaskLists = await response.json();
+
+        // Determine the maximum order value from the existing task lists
+        const maxOrder = existingTaskLists.reduce(
+          (max: number, taskList: { order: number }) =>
+            Math.max(max, taskList.order),
+          0
+        );
+
+        // Increment the max order value by 1 for the new task list
+        const newTasklistOrder = maxOrder + 1;
+
+        // Now send the data to create the task list, including the order value
+        const createResponse = await fetch("http://localhost:3000/tasklists", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: "Bearer " + jwtToken,
+          },
+          body: JSON.stringify({ ...taskData, order: newTasklistOrder }),
+        });
+
+        if (createResponse.ok) {
+          const newTaskList = await createResponse.json();
+          console.log("Created task list:", newTaskList);
+          fetchTaskLists();
+        } else {
+          console.error("Failed to create task list:", createResponse.status);
+        }
       } else {
-        console.error("Failed to create task:", response.status);
+        console.error("Failed to fetch existing task lists:", response.status);
       }
     } catch (error) {
-      console.error("Error creating task:", error);
+      console.error("Error creating task list:", error);
     }
   };
 
