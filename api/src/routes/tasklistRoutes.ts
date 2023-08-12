@@ -41,11 +41,14 @@ router.post("/tasklists", async (req, res) => {
   try {
     // @ts-ignore
     const userID = parseInt(req.userId);
-    const { title } = req.body;
+    const { title, order } = req.body;
+
+    console.log("order", order);
 
     const createdTaskList = await prisma.taskList.create({
       data: {
         title,
+        order,
         user: {
           connect: { id: userID },
         },
