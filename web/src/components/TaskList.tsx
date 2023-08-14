@@ -122,19 +122,30 @@ const TaskList: React.FC = () => {
       const jwtToken = localStorage.getItem("jwtToken");
       if (!jwtToken) throw new Error("Not logged in");
 
-      const res = await fetch(`http://localhost:3000/tasklists/updateOrder`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + jwtToken,
-        },
-        body: JSON.stringify({ order: taskListOrder }),
-      });
+      for (let i = 0; i < taskListOrder.length; i++) {
+        const taskListId = taskListOrder[i];
 
-      if (res.ok) {
-        console.log("Task list order updated successfully");
-      } else {
-        console.error("Failed to update task list order:", res.status);
+        const res = await fetch(
+          `http://localhost:3000/tasklists/${taskListId}/updateOrder`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + jwtToken,
+            },
+            body: JSON.stringify({ order: i }),
+          }
+        );
+
+        if (res.ok) {
+          console.log(
+            `Task list order updated successfully for taskListId: ${taskListId}`
+          );
+        } else {
+          console.error(
+            `Failed to update task list order for taskListId: ${taskListId}, Status: ${res.status}`
+          );
+        }
       }
     } catch (error) {
       console.error("Error updating task list order:", error);
@@ -252,7 +263,7 @@ const TaskList: React.FC = () => {
     }
   };
 
-  const handleDropList = (
+  const handleDropList = async (
     e: React.DragEvent<HTMLDivElement>,
     targetListId: number
   ) => {
@@ -261,8 +272,6 @@ const TaskList: React.FC = () => {
 
     if (sourceListId !== targetListId) {
       const updatedTaskLists = [...taskLists];
-
-      console.log("updatedTaskLists", updatedTaskLists);
 
       const sourceListIndex = updatedTaskLists.findIndex(
         (list) => list.id === sourceListId
@@ -283,8 +292,6 @@ const TaskList: React.FC = () => {
       }
 
       if (targetListIndex < sourceListIndex) {
-        console.log("targetListIndex < sourceListIndex");
-
         updatedTaskLists.splice(
           targetListIndex,
           0,
@@ -292,18 +299,13 @@ const TaskList: React.FC = () => {
         ); // add case where targetListIndex <  sourceListIndex
         updatedTaskLists.splice(sourceListIndex + 1, 1); // remove case where targetListIndex < sourceListIndex
       } else {
-        console.log("targetListIndex > sourceListIndex");
-        console.log("updatedTaskLists", updatedTaskLists);
-
         updatedTaskLists.push(updatedTaskLists[sourceListIndex]); // add case where targetListIndex > sourceListIndex
-        console.log("updatedTaskLists", updatedTaskLists);
         updatedTaskLists.splice(sourceListIndex, 1); // remove case where targetListIndex > sourceListIndex
-        console.log("updatedTaskLists", updatedTaskLists);
       }
 
       setTaskLists(updatedTaskLists);
 
-      updateTaskListOrder(updatedTaskLists.map((list) => list.id));
+      await updateTaskListOrder(updatedTaskLists.map((list) => list.id));
 
       fetchTaskLists();
     }
