@@ -6,6 +6,7 @@ import DeleteTasklist from "./DeleteTasklist";
 import UpdateTaskTitle from "./UpdateTaskTitle";
 import UpdateTasklistTitle from "./UpdateTasklistTitle";
 import { useNavigate } from "react-router-dom";
+import { IDrag } from "./icons/IDrag";
 
 interface Task {
   id: number;
@@ -318,38 +319,41 @@ const TaskList: React.FC = () => {
   return (
     <div className="flex m-4 gap-4 overflow-x-auto pb-4">
       {taskLists
-        .sort((a, b) => a.order - b.order) // Sort task lists by order
+        .sort((a, b) => a.order - b.order)
         .map((list) => (
           <div
             key={list.id}
             className="task-list w-80 shrink-0 pr-2 pb-4 bg-neutral-800 rounded-3xl text-white relative"
-            draggable
-            onDragStart={(e) => handleDragStartList(e, list.id)}
-            onDragOver={handleDragOver}
-            onDrop={(e) => handleDropList(e, list.id)}
           >
-            <div className="flex justify-between px-2">
+            <div
+              draggable
+              onDragStart={(e) => handleDragStartList(e, list.id)}
+              onDragOver={handleDragOver}
+              onDrop={(e) => handleDropList(e, list.id)}
+              className="flex justify-between px-2"
+            >
               <UpdateTasklistTitle
                 tasklistId={list.id}
                 currentTitle={list.title}
                 fetchTaskLists={fetchTaskLists}
               />
+              <IDrag />
               <DeleteTasklist taskListId={list.id} onDelete={fetchTaskLists} />
             </div>
             <div
               className="task-container h-80 overflow-auto rounded-3xl p-4 pr-2"
-              // onDragOver={handleDragOver}
-              // onDrop={(e) => handleDropTaskInAnotherList(e, list.id)}
+              onDragOver={handleDragOver}
+              onDrop={(e) => handleDropTaskInAnotherList(e, list.id)}
             >
               {list.tasks
-                .sort((a, b) => a.order - b.order) // Sort tasks by order
+                .sort((a, b) => a.order - b.order)
                 .map((task) => (
                   <div
                     key={task.id}
                     className="task rounded-lg px-2 py-1 border-2 border-neutral-600 my-1"
-                    // draggable
-                    // onDragStart={(e) => handleDragStart(e, task, list.id)}
-                    // onDrop={(e) => handleDrop(e, list.id, task.id)}
+                    draggable
+                    onDragStart={(e) => handleDragStart(e, task, list.id)}
+                    onDrop={(e) => handleDrop(e, list.id, task.id)}
                   >
                     <div className="flex">
                       <div className="w-full">
