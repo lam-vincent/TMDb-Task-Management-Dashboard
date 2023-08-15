@@ -299,7 +299,11 @@ const TaskList: React.FC = () => {
         ); // add case where targetListIndex <  sourceListIndex
         updatedTaskLists.splice(sourceListIndex + 1, 1); // remove case where targetListIndex < sourceListIndex
       } else {
-        updatedTaskLists.push(updatedTaskLists[sourceListIndex]); // add case where targetListIndex > sourceListIndex
+        updatedTaskLists.splice(
+          targetListIndex + 1,
+          0,
+          updatedTaskLists[sourceListIndex]
+        ); // add case where targetListIndex > sourceListIndex
         updatedTaskLists.splice(sourceListIndex, 1); // remove case where targetListIndex > sourceListIndex
       }
 
