@@ -1,4 +1,5 @@
-# TMDb: Task Management Dashboard
+<br />
+<div align="center">
 
 ![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
@@ -8,7 +9,14 @@
 ![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)
 ![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
 
-TMDb is a web application designed to simplify task management in a Trello-like style. With TMDb, you have three task lists at your disposal: "Tasks," "In Progress," and "Done." It provides a straightforward and intuitive interface for adding, organizing, and tracking tasks across these lists.
+<img src="web\public\TMDb-icon.png" alt="Logo" width="80" height="80">
+
+  <h1 align="center" id="tmdb-top">TMDb: Task Management Dashboard</h3>
+
+  <p align="center">
+    TMDb is a web application designed to simplify task management in a Trello-like style. With TMDb, you have three task lists at your disposal: "Tasks," "In Progress," and "Done." It provides a straightforward and intuitive interface for adding, organizing, and tracking tasks across these lists.
+  </p>
+</div>
 
 ## Table of Contents
 
@@ -19,7 +27,7 @@ TMDb is a web application designed to simplify task management in a Trello-like 
     <li><a href="#the-prototype">The Prototype</a></li>
     <li><a href="#the-improved-design">The Improved Design</a></li>
     <li><a href="#add-a-task">Add a Task</a></li>
-    <li><a href="#edit-an-existing-task">Edit an Existing Task</a></li>
+    <li><a href="#added-change-order-feature-and-more">Added change order feature and more</a></li>
     <li><a href="#installation-and-usage">Installation and Usage</a></li>
     <li><a href="#features">Features</a></li>
   </ol>
@@ -35,27 +43,27 @@ TMDb is a web application designed to simplify task management in a Trello-like 
 - 🗄️ SQLite - Embedded relational database management system
 - 🛠️ Prisma - Modern database toolkit and ORM
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#tmdb-top">back to top</a>)</p>
 
-## The prototype [🔝](#TMDb-Task-Management-Dashboard)
+## The prototype
 
 ![TrolleyGif1](https://github.com/lam-vincent/to-do-list/assets/62343240/8f0c1b13-a642-452b-9014-a9d65b46b538)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#tmdb-top">back to top</a>)</p>
 
-## The improved design [🔝](#TMDb-Task-Management-Dashboard)
+## The improved design
 
 ![TMDb-image-1](https://github.com/lam-vincent/to-do-list/assets/62343240/d6546ac1-5171-42c0-b58e-0abe7b674437)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#tmdb-top">back to top</a>)</p>
 
-## Add a task [🔝](#TMDb-Task-Management-Dashboard)
+## Added change order feature and more
 
 ![TMDb-image-2](https://github.com/lam-vincent/to-do-list/assets/62343240/1ac448b6-b3ee-4884-a42a-448549ffb412)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#tmdb-top">back to top</a>)</p>
 
-## Installation and Usage [🔝](#TMDb-Task-Management-Dashboard)
+## Installation and Usage
 
 1. Clone the repository:
 
@@ -83,9 +91,9 @@ npm install
 npm start
 ```
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#tmdb-top">back to top</a>)</p>
 
-## Features [🔝](#TMDb-Task-Management-Dashboard)
+## Features
 
 TMDb offers the following features to simplify your task management:
 
@@ -97,4 +105,4 @@ TMDb offers the following features to simplify your task management:
 
 **Hi 👋, I'm new to the development world. I hope you like this application and thank you for exploring this small project!**
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#tmdb-top">back to top</a>)</p>
