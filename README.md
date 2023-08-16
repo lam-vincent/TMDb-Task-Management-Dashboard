@@ -97,12 +97,10 @@ npm start
 
 TMDb offers the following features to simplify your task management:
 
-- **Task Lists:** Organize your tasks into three lists: "Tasks," "In Progress," and "Done." Keep track of pending tasks, work in progress, and completed items.
-- **Task Creation:** Create new tasks. Capture new tasks as they arise, ensuring nothing falls through the cracks.
-- **Task Editing:** Edit task labels to reflect changes or updates. Ensure your tasks remain up-to-date with accurate information.
-- **Task Deletion:** Remove tasks that are no longer relevant or completed. Keep your task lists clean and clutter-free.
-- **Drag-and-Drop Interface:** Easily move tasks between lists using a simple drag-and-drop feature. Update the status of tasks by relocating them across different lists.
+- **Task Lists Creation, Editing and Deletion:** Organize your tasks into lists.
+- **Task Creation, Editing and Deletion:** Create new tasks. Edit task labels to reflect changes or updates. Remove tasks that are no longer relevant or completed.
+- **Drag-and-Drop Interface:** Easily move tasks and task lists using a simple drag-and-drop feature.
 
-**Hi 👋, I'm new to the development world. I hope you like this application and thank you for exploring this small project!**
+**Hi 👋, I'm new to the development world. I hope you like this application and thank you for exploring my project!**
 
 <p align="right">(<a href="#tmdb-top">back to top</a>)</p>
