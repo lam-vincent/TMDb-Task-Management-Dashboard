@@ -14,7 +14,7 @@
   <h1 align="center" id="tmdb-top">TMDb: Task Management Dashboard</h3>
 
   <p align="center">
-    TMDb is a web application designed to simplify task management in a Trello-like style. With TMDb, you have three task lists at your disposal: "Tasks," "In Progress," and "Done." It provides a straightforward and intuitive interface for adding, organizing, and tracking tasks across these lists.
+    TMDb is a web application designed to simplify task management in a Trello-like style. With TMDb, you can create task lists, create tasks within them and order them as you please. It provides a straightforward and intuitive interface for adding, organizing, and tracking tasks across task lists.
   </p>
 </div>
 
