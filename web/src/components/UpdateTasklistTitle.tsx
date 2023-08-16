@@ -61,7 +61,7 @@ const UpdateTasklistTitle: React.FC<UpdateTasklistTitleProps> = ({
   };
 
   return (
-    <div>
+    <div className="z-10">
       {editing ? (
         <div className="mt-4 mx-3">
           <input
