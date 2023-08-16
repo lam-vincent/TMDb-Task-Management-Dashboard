@@ -59,7 +59,13 @@
 
 ## Added change order feature and more
 
-![TMDb-image-2](https://github.com/lam-vincent/to-do-list/assets/62343240/1ac448b6-b3ee-4884-a42a-448549ffb412)
+![Added change order feature and more](https://github.com/lam-vincent/TMDb-Task-Management-Dashboard/assets/62343240/74b1878a-3bb8-4d38-b8d4-9edfb3b02691)
+
+<p align="right">(<a href="#tmdb-top">back to top</a>)</p>
+
+## Authentification System
+
+![login](https://github.com/lam-vincent/TMDb-Task-Management-Dashboard/assets/62343240/974e4080-5f31-460a-8be2-c46c91eeb8bd)
 
 <p align="right">(<a href="#tmdb-top">back to top</a>)</p>
 
