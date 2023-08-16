@@ -330,7 +330,7 @@ const TaskList: React.FC = () => {
               onDragStart={(e) => handleDragStartList(e, list.id)}
               onDragOver={handleDragOver}
               onDrop={(e) => handleDropList(e, list.id)}
-              className="flex justify-between px-2 items-center relative"
+              className="flex justify-between px-2 pt-4 items-center relative"
             >
               <UpdateTasklistTitle
                 tasklistId={list.id}
@@ -338,7 +338,7 @@ const TaskList: React.FC = () => {
                 fetchTaskLists={fetchTaskLists}
               />
 
-              <div className="absolute top-1.5 left-1/2 transform -translate-x-1/2">
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2">
                 <IDrag />
               </div>
               <DeleteTasklist taskListId={list.id} onDelete={fetchTaskLists} />
