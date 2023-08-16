@@ -24,12 +24,12 @@
   <summary>Table of Contents</summary>
   <ol>
     <li><a href="#tech-stack">Tech Stack</a></li>
+    <li><a href="#features">Features</a></li>
     <li><a href="#the-prototype">The Prototype</a></li>
     <li><a href="#the-improved-design">The Improved Design</a></li>
     <li><a href="#add-a-task">Add a Task</a></li>
     <li><a href="#added-change-order-feature-and-more">Added change order feature and more</a></li>
     <li><a href="#installation-and-usage">Installation and Usage</a></li>
-    <li><a href="#features">Features</a></li>
   </ol>
 </details>
 
@@ -42,6 +42,18 @@
 - ⚙️ Express - Web application framework for Node.js
 - 🗄️ SQLite - Embedded relational database management system
 - 🛠️ Prisma - Modern database toolkit and ORM
+
+<p align="right">(<a href="#tmdb-top">back to top</a>)</p>
+
+## Features
+
+TMDb offers the following features to simplify your task management:
+
+- **Task Lists Creation, Editing and Deletion:** Organize your tasks into lists.
+- **Task Creation, Editing and Deletion:** Create new tasks. Edit task labels to reflect changes or updates. Remove tasks that are no longer relevant or completed.
+- **Drag-and-Drop Interface:** Easily move tasks and task lists using a simple drag-and-drop feature.
+
+**Hi 👋, I'm new to the development world. I hope you like this application and thank you for exploring my project!**
 
 <p align="right">(<a href="#tmdb-top">back to top</a>)</p>
 
@@ -96,17 +108,5 @@ cd api
 npm install
 npm start
 ```
-
-<p align="right">(<a href="#tmdb-top">back to top</a>)</p>
-
-## Features
-
-TMDb offers the following features to simplify your task management:
-
-- **Task Lists Creation, Editing and Deletion:** Organize your tasks into lists.
-- **Task Creation, Editing and Deletion:** Create new tasks. Edit task labels to reflect changes or updates. Remove tasks that are no longer relevant or completed.
-- **Drag-and-Drop Interface:** Easily move tasks and task lists using a simple drag-and-drop feature.
-
-**Hi 👋, I'm new to the development world. I hope you like this application and thank you for exploring my project!**
 
 <p align="right">(<a href="#tmdb-top">back to top</a>)</p>
