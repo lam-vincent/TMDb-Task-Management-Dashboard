@@ -12,15 +12,20 @@ TMDb is a web application designed to simplify task management in a Trello-like 
 
 ## Table of Contents
 
-- [Tech Stack](#tech-stack)
-- [The Prototype](#the-prototype)
-- [The Improved Design](#the-improved-design)
-- [Add a Task](#add-a-task)
-- [Edit an Existing Task](#edit-an-existing-task)
-- [Installation and Usage](#installation-and-usage)
-- [Features](#features)
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li><a href="#tech-stack">Tech Stack</a></li>
+    <li><a href="#the-prototype">The Prototype</a></li>
+    <li><a href="#the-improved-design">The Improved Design</a></li>
+    <li><a href="#add-a-task">Add a Task</a></li>
+    <li><a href="#edit-an-existing-task">Edit an Existing Task</a></li>
+    <li><a href="#installation-and-usage">Installation and Usage</a></li>
+    <li><a href="#features">Features</a></li>
+  </ol>
+</details>
 
-## Tech Stack [🔝](#TMDb-Task-Management-Dashboard)
+## Tech Stack
 
 - ⚡️ Vite - Fast and lightweight development server
 - ⚛️ React - JavaScript library for building user interfaces
@@ -30,21 +35,25 @@ TMDb is a web application designed to simplify task management in a Trello-like 
 - 🗄️ SQLite - Embedded relational database management system
 - 🛠️ Prisma - Modern database toolkit and ORM
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ## The prototype [🔝](#TMDb-Task-Management-Dashboard)
 
 ![TrolleyGif1](https://github.com/lam-vincent/to-do-list/assets/62343240/8f0c1b13-a642-452b-9014-a9d65b46b538)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## The improved design [🔝](#TMDb-Task-Management-Dashboard)
 
 ![TMDb-image-1](https://github.com/lam-vincent/to-do-list/assets/62343240/d6546ac1-5171-42c0-b58e-0abe7b674437)
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ## Add a task [🔝](#TMDb-Task-Management-Dashboard)
 
 ![TMDb-image-2](https://github.com/lam-vincent/to-do-list/assets/62343240/1ac448b6-b3ee-4884-a42a-448549ffb412)
 
-## Edit an existing task [🔝](#TMDb-Task-Management-Dashboard)
-
-![TMDb-image-4](https://github.com/lam-vincent/to-do-list/assets/62343240/b8c7e171-14e4-4f6a-b91a-0e7a3189b289)
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Installation and Usage [🔝](#TMDb-Task-Management-Dashboard)
 
@@ -74,6 +83,8 @@ npm install
 npm start
 ```
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ## Features [🔝](#TMDb-Task-Management-Dashboard)
 
 TMDb offers the following features to simplify your task management:
@@ -86,4 +97,4 @@ TMDb offers the following features to simplify your task management:
 
 **Hi 👋, I'm new to the development world. I hope you like this application and thank you for exploring this small project!**
 
-[⬆️ go to top ⬆️](#TMDb-Task-Management-Dashboard)
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
