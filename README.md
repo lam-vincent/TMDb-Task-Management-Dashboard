@@ -27,8 +27,8 @@
     <li><a href="#features">Features</a></li>
     <li><a href="#the-prototype">The Prototype</a></li>
     <li><a href="#the-improved-design">The Improved Design</a></li>
-    <li><a href="#add-a-task">Add a Task</a></li>
     <li><a href="#added-change-order-feature-and-more">Added change order feature and more</a></li>
+    <li><a href="#authentification-system">Authentification System</a></li>
     <li><a href="#installation-and-usage">Installation and Usage</a></li>
   </ol>
 </details>
